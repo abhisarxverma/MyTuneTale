@@ -1,0 +1,115 @@
+
+
+.title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    width: max-content;
+    max-width: 100%;
+    margin-block-end: .5rem;
+    border-bottom: 2px solid white;
+}
+
+@media (min-width: 35rem) {
+    .storyWrapper {
+        margin-block-start: 2rem;
+    }
+    .title {
+        font-size: 1.5rem;
+    }
+}
+
+.personaTitle {
+    border-color: #0cb447;
+}
+
+.happinessTitle {
+    border-color: #f3cd02;
+}
+
+.sadnessTitle {
+    border-color: #1e90ff;
+}
+
+.deep_lyricsTitle {
+    border-color: #9632c7;
+}
+
+.navGroup {
+    margin-block-start: 1.5rem;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    border-radius: 10px;
+    padding: .5rem;
+    gap: 1rem;
+}
+
+.navTab {
+    border: 0;
+    border-radius: 10px;
+    padding: .3rem 1rem;
+    font-weight: 500;
+    box-sizing: border-box;
+    font-family: "Dm Sans" , "sans-serif";
+}
+
+.personaTab:hover:not(.personaTab.active),
+.personaTab:focus:not(.personaTab.active) {
+    outline : 1px solid #0cb447;
+}
+
+.happinessTab:hover:not(.happinessTab.active),
+.happinessTab:focus:not(.happinessTab.active) {
+    outline: 1px solid #f3cd02;
+}
+
+.sadnessTab:hover:not(.sadnessTab.active),
+.sadnessTab:focus:not(.sadnessTab.active) {
+    outline: 1px solid #1e90ff;
+}
+
+.deepLyricsTab:hover:not(.deepLyricsTab.active),
+.deepLyricsTab:hover:not(.deepLyricsTab.active) {
+    outline: 1px solid #9632c7;
+}
+
+.personaTab.active {
+    background-color: #0cb447;
+}
+
+.happinessTab.active {
+    background-color: #f3cd02;
+}
+
+.sadnessTab.active {
+    background-color: #1e90ff;
+}
+
+.deepLyricsTab.active {
+    background-color: #9632c7;
+}
+
+.storyBox {
+    position: relative;
+    margin-block-start: 1rem;
+    border-radius: 10px;
+    min-height: 300px;
+}
+
+.creatingBox {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+}
+
+.creatingLoader {
+    color: #1ED760;
+}
+
+.creatingLabel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}

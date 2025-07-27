@@ -1,0 +1,106 @@
+
+import { useMemo } from "react"
+import { LibraryBig } from "lucide-react"
+import {
+    LabelList,
+    Line,
+    LineChart,
+    XAxis,
+    YAxis,
+} from "recharts"
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import {
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart"
+import type { PlaylistCollection, SavedTrack } from "@/lib/types.ts"
+
+export const description = "Monthly track additions overview"
+
+function formatMonth(dateStr: string) {
+    const date = new Date(dateStr)
+    return `${date.toLocaleString("default", { month: "short" })} '${date.getFullYear().toString().slice(-2)}`
+}
+
+function generateMonthlyChartData(playlists: PlaylistCollection) {
+    const monthlyCounts: Record<string, number> = {}
+
+    playlists.forEach((playlist) => {
+        playlist.tracks.forEach((track: SavedTrack) => {
+            const month = formatMonth(track.added_at)
+            monthlyCounts[month] = (monthlyCounts[month] || 0) + 1
+        })
+    })
+
+    const sortedMonths = Object.keys(monthlyCounts).sort()
+
+    return sortedMonths.map((month) => ({
+        month,
+        count: monthlyCounts[month],
+    }))
+}
+
+export function AdditionsChart({ playlists }: { playlists: PlaylistCollection | undefined }) {
+    const chartData = useMemo(() => generateMonthlyChartData(playlists || []), [playlists])
+
+    return (
+        <div>
+            <h2 className="font-dm font-bold text-[1.5rem] mb-[1.5rem] border-b-2 border-[#8A2BE2] w-[max-content] pb-1">Your Song Additions</h2>
+            <Card className="bg-zinc-800 text-white border-0">
+                <CardHeader>
+                    <CardTitle className="font-dm text-[1.2rem] font-semibold flex items-center gap-1"><LibraryBig className="font-bold" size={"1.3rem"} />Your Monthly Song Addition Journey</CardTitle>
+                    <CardDescription className="font-dm text-zinc-300">These tracks aren't just additions, they're memories from your past—college, first loves, and everything in between.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ChartContainer config={{ count: { label: "Tracks Added", color: "var(--chart-1)" } }} className="!aspect-auto h-[280px] font-dm bg-black">
+                        <LineChart
+                            data={chartData}
+                            margin={{ top: 20, left: 12, right: 12 }}
+                        >
+                            <XAxis
+                                dataKey="month"
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={8}
+                            />
+                            <YAxis allowDecimals={false} />
+                            <ChartTooltip
+                                cursor={false}
+                                content={<ChartTooltipContent indicator="line" />}
+                            />
+                            <Line
+                                dataKey="count"
+                                type="monotone"
+                                stroke="#8A2BE2"
+                                strokeWidth={2}
+                                dot={{ fill: "#8A2BE2" }}
+                                activeDot={{ r: 6 }}
+                            >
+                                <LabelList
+                                    position="top"
+                                    offset={10}
+                                    className="fill-foreground"
+                                    fontSize={12}
+                                />
+                            </Line>
+                        </LineChart>
+                    </ChartContainer>
+                </CardContent>
+                <CardFooter className="flex-col items-start gap-2 text-sm">
+                    <div className="text-zinc-400 fong-dm font-bold">
+                        This shows the number of total songs you added in any of the playlist including the liked songs.
+                    </div>
+                </CardFooter>
+            </Card>
+        </div>
+    )
+}

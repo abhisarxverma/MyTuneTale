@@ -1,0 +1,50 @@
+
+.header{
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8rem;
+    /* backdrop-filter: blur(5rem); */
+    padding-inline-end: 2rem;
+    z-index: 999;
+    background: transparent;
+    position: relative;
+}
+
+.back {
+    background-color: black;
+    opacity: .5;
+    pointer-events: none;
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+}
+
+.titleGroup {
+    display: flex;
+    align-items: center;
+
+}
+
+.logo {
+    width: 4rem;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+}
+
+.title {
+    font-size: 2.3rem;
+    color: white;
+}
+
+@media (min-width: 35rem) {
+    .header {
+        padding-block: .5rem;
+        padding-inline: 1rem;
+    }
+    .title {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,1057 @@
+{
+    "poetic_title": "A Heart's Quiet Bloom",
+    "mood": "Introspective and Thoughtful",
+    "emotion_keywords": [
+        "introspection",
+        "reflection",
+        "understanding"
+    ],
+    "reflection": "Your journey is marked by a deep dive into self-awareness, with music as your guiding light.",
+    "story": {
+        "all_playlists": [
+            {
+                "id": "2QdfQyxZE1ABMHMYTJdM4a",
+                "name": "2022-11-15 Billboard 100",
+                "description": "Top 100 songs ciculating on 2022-11-15",
+                "owner": "abhisar verma",
+                "total_tracks": 100,
+                "image": "https://mosaic.scdn.co/640/ab67616d00001e0202854a7060fccc1a66a4b5adab67616d00001e0268968350c2550e36d96344eeab67616d00001e02a935e4689f15953311772cc4ab67616d00001e02bb54dde68cd23e2a268ae0f5",
+                "tracks": [
+                    {
+                        "name": "Anti-Hero",
+                        "id": "0V3wPSX9ygBnCm8psDIegu",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Anxious",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Midnight Rain",
+                        "id": "3rWDp9tBPQR9z6U5YyRSK4",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Bittersweet",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Jimmy Cooks (feat. 21 Savage)",
+                        "id": "3F5CgOj3wFlRv51JsHbxhe",
+                        "artist": "Drake",
+                        "album": "Honestly, Nevermind",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2738dc0d801766a5aa6a33cbe37",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Swagger",
+                            "color_hex": "#FF4500"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "Hold Me Closer",
+                        "id": "72yP0DUlWPyH8P7IoxskwN",
+                        "artist": "Elton John",
+                        "album": "Hold Me Closer",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2735d872e7b0c1ba964541f07e8",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Comforting",
+                            "color_hex": "#ADD8E6"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Question...?",
+                        "id": "0heeNYlwOGuUSe7TgUD27B",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Uncertainty",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "golden hour",
+                        "id": "4yNk9iz9WVJikRFle3XEvn",
+                        "artist": "JVKE",
+                        "album": "this is what falling in love feels like (554Hz)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2730af4476af141051c728ee8b9",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Euphoric",
+                            "color_hex": "#FFD700"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Rock and A Hard Place",
+                        "id": "1nPtZ8OtmKeyYZhbMAYbQP",
+                        "artist": "Bailey Zimmerman",
+                        "album": "Leave The Light On",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2730b11474886b9d16abdeaedf9",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Struggle",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Country",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "Fall In Love Alone",
+                        "id": "5xwBIieMMFUmLDgvG4DjFe",
+                        "artist": "Stacey Ryan",
+                        "album": "Fall In Love Alone",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273c0e833f8baa95fdcbcc4f65a",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Vulnerable",
+                            "color_hex": "#FF69B4"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Half Of Me",
+                        "id": "11kskoMyNDumaR30CI6rRv",
+                        "artist": "Thomas Rhett",
+                        "album": "Where We Started",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273809f7252c726950e7e38963b",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Devotion",
+                            "color_hex": "#FF69B4"
+                        },
+                        "genre_tag": {
+                            "name": "Country",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "Made You Look",
+                        "id": "0QHEIqNKsMoOY5urbzN48u",
+                        "artist": "Meghan Trainor",
+                        "album": "Takin' It Back",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2731a4f1ada93881da4ca8060ff",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Confident",
+                            "color_hex": "#FFD700"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Hotel Lobby (Unc and Phew) - Instrumental",
+                        "id": "0NNJIHUL4KUzdpe8k4Ng7V",
+                        "artist": "KPH",
+                        "album": "Dees Bops Be Lit!",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27325538ad985f21a028e682771",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Relaxed",
+                            "color_hex": "#ADD8E6"
+                        },
+                        "genre_tag": {
+                            "name": "Instrumental",
+                            "color_hex": "#B0C4DE"
+                        }
+                    },
+                    {
+                        "name": "What My World Spins Around",
+                        "id": "6HBRLaSQ7NB8MNlaqzYen1",
+                        "artist": "Jordan Davis",
+                        "album": "What My World Spins Around",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273562a3e12e907889c1e7ca5f9",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Adoration",
+                            "color_hex": "#FF69B4"
+                        },
+                        "genre_tag": {
+                            "name": "Country",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "Until I Found You (with Em Beihold) - Em Beihold Version",
+                        "id": "1Y3LN4zO1Edc2EluIoSPJN",
+                        "artist": "Stephen Sanchez",
+                        "album": "Until I Found You (Em Beihold Version)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2732bf0876d42b90a8852ad6244",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Romantic",
+                            "color_hex": "#FF69B4"
+                        },
+                        "genre_tag": {
+                            "name": "Indie Pop",
+                            "color_hex": "#A9A9A9"
+                        }
+                    },
+                    {
+                        "name": "Mastermind",
+                        "id": "7FmYn9e7KHMXcxqGSj9LjH",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Cleverness",
+                            "color_hex": "#FFD700"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Victoria's Secret",
+                        "id": "4svaKoxMMP7ImmKrD5hfQu",
+                        "artist": "Jax",
+                        "album": "Victoria\u00e2\u20ac\u2122s Secret",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27354adf219d3544d3670d23cd2",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Empowering",
+                            "color_hex": "#8A2BE2"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Labyrinth",
+                        "id": "0A1JLUlkZkp2EFrosoNQi0",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Confusion",
+                            "color_hex": "#4B0082"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "STAR WALKIN' (League of Legends Worlds Anthem)",
+                        "id": "38T0tPVZHcPZyhtOcCP7pF",
+                        "artist": "Lil Nas X",
+                        "album": "STAR WALKIN' (League of Legends Worlds Anthem)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27304cd9a1664fb4539a55643fe",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Ambitious",
+                            "color_hex": "#FF4500"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Son of a Sinner",
+                        "id": "44aZxYfLtddMxlBDPATzS9",
+                        "artist": "Drew Jacobs",
+                        "album": "Son of a Sinner",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273963c2e24472de6dd3f049abe",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Soulful",
+                            "color_hex": "#8B4513"
+                        },
+                        "genre_tag": {
+                            "name": "Country",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "Don't Come Lookin'",
+                        "id": "3CdUlano6ybGrlycGfEVgt",
+                        "artist": "Jackson Dean",
+                        "album": "Greenbroke",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273cce97a6fae46eab4f985ec08",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Independent",
+                            "color_hex": "#8B4513"
+                        },
+                        "genre_tag": {
+                            "name": "Country",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "Sweet Nothing",
+                        "id": "0wavGRldH0AWyu2zvTz8zb",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Comfort",
+                            "color_hex": "#ADD8E6"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Romantic Homicide",
+                        "id": "1xK59OXxi2TAAAbmZK0kBL",
+                        "artist": "d4vd",
+                        "album": "Romantic Homicide",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bd1a52b3d5903ee01c216da0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Heartbreak",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Indie Pop",
+                            "color_hex": "#A9A9A9"
+                        }
+                    },
+                    {
+                        "name": "California Breeze",
+                        "id": "6ug9fUi5oLLgQgOF1G8WkM",
+                        "artist": "Lil Baby",
+                        "album": "It's Only Me",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27366b04b41fa6f8908dce86695",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Confident",
+                            "color_hex": "#000000"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "BILLIE EILISH.",
+                        "id": "27ZZdyTSQWI7Cug2d2PkqV",
+                        "artist": "Armani White",
+                        "album": "BILLIE EILISH.",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2734f8799f23432ad98d522f0ec",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Playful",
+                            "color_hex": "#32CD32"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "wait in the truck (feat. Lainey Wilson)",
+                        "id": "0jfIDA6ngn9ZO9mjCkF3aZ",
+                        "artist": "HARDY",
+                        "album": "wait in the truck (feat. Lainey Wilson)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2739687a283afa0e41073865f38",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Protective",
+                            "color_hex": "#8B0000"
+                        },
+                        "genre_tag": {
+                            "name": "Country Rock",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "Would've, Could've, Should've",
+                        "id": "0aV5uARAknQgYhBaK944FP",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights (3am Edition)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273e0b60c608586d88252b8fbc0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Regret",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Heyy",
+                        "id": "6w2laMOxRE0yUsbq4bVLiZ",
+                        "artist": "Lil Baby",
+                        "album": "Heyy",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2730c654597d2a5e80ddac19963",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Confident",
+                            "color_hex": "#000000"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "Wishful Drinking (with Sam Hunt) - Bonus Track",
+                        "id": "15e2jfRPI2mYAOPMDyytP0",
+                        "artist": "Ingrid Andress",
+                        "album": "Good Person",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273df9c64562b814efa14667da5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Longing",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Country Pop",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "Freedom - Original Mix",
+                        "id": "5qv8RDbrZMdmXs23yqavHY",
+                        "artist": "Mind Against",
+                        "album": "Freedom (Original Mix)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273331bd56b731e6f898f247969",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Liberating",
+                            "color_hex": "#00BFFF"
+                        },
+                        "genre_tag": {
+                            "name": "Electronic",
+                            "color_hex": "#00BFFF"
+                        }
+                    },
+                    {
+                        "name": "Music For a Sushi Restaurant",
+                        "id": "5LYMamLv12UPbemOaTPyeV",
+                        "artist": "Harry Styles",
+                        "album": "Harry's House",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Playful",
+                            "color_hex": "#32CD32"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "No Se Va - EN VIVO",
+                        "id": "23Lyy7ZXRvzfgH4JtDkKrX",
+                        "artist": "Grupo Frontera",
+                        "album": "No Se Va (EN VIVO)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273042b5cc9a1a0a97cfc005ee8",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Joyful",
+                            "color_hex": "#FF8C00"
+                        },
+                        "genre_tag": {
+                            "name": "Latin",
+                            "color_hex": "#FF8C00"
+                        }
+                    },
+                    {
+                        "name": "Whiskey On You",
+                        "id": "6Tm4Io4ct4w14nB1EUzsY3",
+                        "artist": "Nate Smith",
+                        "album": "Whiskey On You",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273fa5d804b18796b2d7355f410",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Resigned",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Country",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "My Mind & Me",
+                        "id": "0XER3HPMx223xWaAgNKp4Y",
+                        "artist": "Selena Gomez",
+                        "album": "My Mind & Me",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273781904f69fd550c19e6e3b55",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Vulnerable",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Forever",
+                        "id": "3K9TE5e2ARmNsJKH5CNBmx",
+                        "artist": "Brodha V",
+                        "album": "Forever",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273d24bc684892c3a4c57e5740b",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Empowering",
+                            "color_hex": "#8A2BE2"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "Bigger Than The Whole Sky",
+                        "id": "0BiqmkasE5FdrChwKfVp8X",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights (3am Edition)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273e0b60c608586d88252b8fbc0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Grief",
+                            "color_hex": "#4B0082"
+                        },
+                        "genre_tag": {
+                            "name": "Ballad",
+                            "color_hex": "#DC143C"
+                        }
+                    },
+                    {
+                        "name": "ALL MINE",
+                        "id": "3XgGQ1wjo5khvq2UImjyNF",
+                        "artist": "Brent Faiyaz",
+                        "album": "WASTELAND",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27369f63a842ea91ca7c522593a",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Neutral",
+                            "color_hex": "#D3D3D3"
+                        },
+                        "genre_tag": {
+                            "name": "Mixed",
+                            "color_hex": "#808080"
+                        }
+                    },
+                    {
+                        "name": "The Great War",
+                        "id": "3UMrglJeju5yWyYIW6o99b",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights (3am Edition)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273e0b60c608586d88252b8fbc0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Endurance",
+                            "color_hex": "#8A2BE2"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Calm Down",
+                        "id": "6hgoYQDUcPyCz7LcTUHKxa",
+                        "artist": "Rema",
+                        "album": "Calm Down",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2734104f6b4175d04d69ab73c85",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Smooth",
+                            "color_hex": "#FF69B4"
+                        },
+                        "genre_tag": {
+                            "name": "Afrobeats",
+                            "color_hex": "#FF8C00"
+                        }
+                    },
+                    {
+                        "name": "Miss You - Sped Up Version",
+                        "id": "4pH8cIlMI9NrTWcDiQbuRe",
+                        "artist": "Oliver Tree",
+                        "album": "Miss You (Sped Up Version)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27388367cde4312ea2b32225e1b",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Nostalgic",
+                            "color_hex": "#DAA520"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Paris Ka Trip",
+                        "id": "4t22MCG1GHjKlXRCIlJlDd",
+                        "artist": "Yo Yo Honey Singh",
+                        "album": "Paris Ka Trip",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273a104877b14818eaef7c93277",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Celebratory",
+                            "color_hex": "#FFD700"
+                        },
+                        "genre_tag": {
+                            "name": "Indian Pop",
+                            "color_hex": "#FFD700"
+                        }
+                    },
+                    {
+                        "name": "The Last Ride",
+                        "id": "7B4uYqxTpTOS1sgxFB9Ann",
+                        "artist": "Sidhu Moose Wala",
+                        "album": "The Last Ride",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27374568d5f6ec286a36613a517",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Somber",
+                            "color_hex": "#4B0082"
+                        },
+                        "genre_tag": {
+                            "name": "Punjabi",
+                            "color_hex": "#FFD700"
+                        }
+                    },
+                    {
+                        "name": "Freestyle",
+                        "id": "7rlulUEMn27TLbdHpNPugE",
+                        "artist": "Jordan Sandhu",
+                        "album": "FAME",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27389432cb3f1c79accf7db0525",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Confident",
+                            "color_hex": "#FF4500"
+                        },
+                        "genre_tag": {
+                            "name": "Punjabi",
+                            "color_hex": "#FFD700"
+                        }
+                    },
+                    {
+                        "name": "(Pick Me Up) Euphoria - From \"Euphoria\" An HBO Original Series",
+                        "id": "6QFCgioM2ZDxCEadWUes2b",
+                        "artist": "James Blake",
+                        "album": "(Pick Me Up) Euphoria [From \"Euphoria\" An HBO Original Series]",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bce9a0f3a93830c52864eba0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Emotional",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Electronic",
+                            "color_hex": "#00BFFF"
+                        }
+                    },
+                    {
+                        "name": "In My Head",
+                        "id": "2RJAKIw6nIkgZVsAIKhmqz",
+                        "artist": "Juice WRLD",
+                        "album": "In My Head",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273fc8d508165184ba404ca8495",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Anxious",
+                            "color_hex": "#4B0082"
+                        },
+                        "genre_tag": {
+                            "name": "Emo Rap",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "Country On",
+                        "id": "1tRxwf8Q0AcshfHuaD86Yt",
+                        "artist": "Luke Bryan",
+                        "album": "Country On",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2738f91cad3d6dea3929464b990",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Patriotic",
+                            "color_hex": "#8B4513"
+                        },
+                        "genre_tag": {
+                            "name": "Country",
+                            "color_hex": "#8B4513"
+                        }
+                    },
+                    {
+                        "name": "La Bachata",
+                        "id": "5ww2BF9slyYgNOk37BlC4u",
+                        "artist": "Manuel Turizo",
+                        "album": "La Bachata",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273c9f744b0d62da795bc21d04a",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Sensual",
+                            "color_hex": "#FF69B4"
+                        },
+                        "genre_tag": {
+                            "name": "Latin Pop",
+                            "color_hex": "#FF8C00"
+                        }
+                    },
+                    {
+                        "name": "2 Be Loved (Am I Ready)",
+                        "id": "2rmwqU7yzTvzkiaRV53DpT",
+                        "artist": "Lizzo",
+                        "album": "Special",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273fe3b1b9cb7183a94e1aafd43",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Empowering",
+                            "color_hex": "#8A2BE2"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "High Infidelity",
+                        "id": "5kiZGSxgqPdv6rbqL9THdd",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights (3am Edition)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273e0b60c608586d88252b8fbc0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Betrayal",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Gotta Move On (feat. Bryson Tiller)",
+                        "id": "3K9IrLs25jHtvWjAAFAfav",
+                        "artist": "Diddy",
+                        "album": "Gotta Move On (feat. Bryson Tiller)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2731f7070d399499f22e0eafd00",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Empowered",
+                            "color_hex": "#8A2BE2"
+                        },
+                        "genre_tag": {
+                            "name": "R&B",
+                            "color_hex": "#800080"
+                        }
+                    },
+                    {
+                        "name": "STAYING ALIVE (feat. Drake & Lil Baby)",
+                        "id": "7Ddk8FhoYKdsVoX9AOCPMm",
+                        "artist": "DJ Khaled",
+                        "album": "GOD DID",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273b1038aaf26f4c6daad614707",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Resilience",
+                            "color_hex": "#FFD700"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    }
+                ],
+                "sadness_score": 42,
+                "happiness_score": 58,
+                "deep_lyrics_score": 59
+            }
+        ],
+        "all_chapters": [
+            {
+                "month": "2024-12",
+                "this_month_tracks": [
+                    {
+                        "name": "Anti-Hero",
+                        "id": "0V3wPSX9ygBnCm8psDIegu",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Anxious",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Broke Boys",
+                        "id": "45pUWUeEWGoSdH6UF162G8",
+                        "artist": "Drake",
+                        "album": "Her Loss",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27302854a7060fccc1a66a4b5ad",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Swagger",
+                            "color_hex": "#FF4500"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "Middle of the Ocean",
+                        "id": "410TZrK18uRjtsTunG14cl",
+                        "artist": "Drake",
+                        "album": "Her Loss",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27302854a7060fccc1a66a4b5ad",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Reflective",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "Jumbotron Shit Poppin",
+                        "id": "2ZlABhxMMa43COmZ97kKsJ",
+                        "artist": "Drake",
+                        "album": "Her Loss",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27302854a7060fccc1a66a4b5ad",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Swagger",
+                            "color_hex": "#FF4500"
+                        },
+                        "genre_tag": {
+                            "name": "Hip-hop",
+                            "color_hex": "#000000"
+                        }
+                    },
+                    {
+                        "name": "As It Was",
+                        "id": "4Dvkj6JhhA12EX05fT7y2e",
+                        "artist": "Harry Styles",
+                        "album": "Harry's House",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Nostalgic",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Lift Me Up - From Black Panther: Wakanda Forever - Music From and Inspired By",
+                        "id": "35ovElsgyAtQwYPYnZJECg",
+                        "artist": "Rihanna",
+                        "album": "Lift Me Up (From Black Panther: Wakanda Forever - Music From and Inspired By)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273a790c56cff6e3463bf9935cb",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Hopeful",
+                            "color_hex": "#ADD8E6"
+                        },
+                        "genre_tag": {
+                            "name": "Soul",
+                            "color_hex": "#800080"
+                        }
+                    },
+                    {
+                        "name": "Midnight Rain",
+                        "id": "3rWDp9tBPQR9z6U5YyRSK4",
+                        "artist": "Taylor Swift",
+                        "album": "Midnights",
+                        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5",
+                        "added_at": "2024-12-23T13:00:25Z",
+                        "emotion_tag": {
+                            "name": "Bittersweet",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    }
+                ],
+                "happiness_score": "58",
+                "sad_score": "42",
+                "deep_lyrics_score": "59",
+                "persona_score": "58"
+            },
+            {
+                "month": "2025-07",
+                "this_month_tracks": [
+                    {
+                        "name": "Keep on Loving You",
+                        "id": "3GUSidbQwd7xuvU6AQorRh",
+                        "artist": "Cigarettes After Sex",
+                        "album": "Affection",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2735fb77915b586180b3b41ccbb",
+                        "added_at": "2025-07-20T13:15:00Z",
+                        "emotion_tag": {
+                            "name": "Devotion",
+                            "color_hex": "#FF69B4"
+                        },
+                        "genre_tag": {
+                            "name": "Dream Pop",
+                            "color_hex": "#B0C4DE"
+                        }
+                    },
+                    {
+                        "name": "Tejano Blue",
+                        "id": "2r827SsYFHrS34tRs4jt3D",
+                        "artist": "Cigarettes After Sex",
+                        "album": "Tejano Blue",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2733292b8fec6941dae2c4435e8",
+                        "added_at": "2025-07-20T13:14:52Z",
+                        "emotion_tag": {
+                            "name": "Dreamy",
+                            "color_hex": "#DAA520"
+                        },
+                        "genre_tag": {
+                            "name": "Indie Pop",
+                            "color_hex": "#B0C4DE"
+                        }
+                    },
+                    {
+                        "name": "Style",
+                        "id": "0ug5NqcwcFR2xrfTkc7k8e",
+                        "artist": "Taylor Swift",
+                        "album": "1989 (Deluxe)",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27352b2a3824413eefe9e33817a",
+                        "added_at": "2025-07-20T13:14:37Z",
+                        "emotion_tag": {
+                            "name": "Confident",
+                            "color_hex": "#FFD700"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "this is me trying",
+                        "id": "7kt9e9LFSpN1zQtYEl19o1",
+                        "artist": "Taylor Swift",
+                        "album": "folklore",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27395f754318336a07e85ec59bc",
+                        "added_at": "2025-07-20T13:14:19Z",
+                        "emotion_tag": {
+                            "name": "Vulnerable",
+                            "color_hex": "#B22222"
+                        },
+                        "genre_tag": {
+                            "name": "Indie Folk",
+                            "color_hex": "#A9A9A9"
+                        }
+                    },
+                    {
+                        "name": "Watermelon Sugar",
+                        "id": "6UelLqGlWMcVH1E5c4H7lY",
+                        "artist": "Harry Styles",
+                        "album": "Fine Line",
+                        "image": "https://i.scdn.co/image/ab67616d0000b27377fdcfda6535601aff081b6a",
+                        "added_at": "2025-07-07T12:34:50Z",
+                        "emotion_tag": {
+                            "name": "Joyful",
+                            "color_hex": "#FF4500"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    },
+                    {
+                        "name": "Sign of the Times",
+                        "id": "5Ohxk2dO5COHF1krpoPigN",
+                        "artist": "Harry Styles",
+                        "album": "Harry Styles",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2736c619c39c853f8b1d67b7859",
+                        "added_at": "2025-07-07T12:34:17Z",
+                        "emotion_tag": {
+                            "name": "Epic",
+                            "color_hex": "#8A2BE2"
+                        },
+                        "genre_tag": {
+                            "name": "Pop Rock",
+                            "color_hex": "#8B0000"
+                        }
+                    },
+                    {
+                        "name": "As It Was",
+                        "id": "4Dvkj6JhhA12EX05fT7y2e",
+                        "artist": "Harry Styles",
+                        "album": "Harry's House",
+                        "image": "https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0",
+                        "added_at": "2025-07-07T12:32:59Z",
+                        "emotion_tag": {
+                            "name": "Nostalgic",
+                            "color_hex": "#708090"
+                        },
+                        "genre_tag": {
+                            "name": "Pop",
+                            "color_hex": "#FF6347"
+                        }
+                    }
+                ],
+                "happiness_score": "56",
+                "sad_score": "44",
+                "deep_lyrics_score": "71",
+                "persona_score": "61"
+            }
+        ],
+        "story_title": "Charting Inner Tides",
+        "story_lore": "From the world's beat to your heart's rhythm, your journey began external and turned inward. Each track, a brushstroke on the canvas of your evolving self."
+    }
+}

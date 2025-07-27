@@ -1,0 +1,148 @@
+{
+  "saved_tracks": [
+    {
+      "name": "Watermelon Sugar",
+      "id": "6UelLqGlWMcVH1E5c4H7lY",
+      "artist": "Harry Styles",
+      "album": "Fine Line",
+      "image": "https://i.scdn.co/image/ab67616d0000b27377fdcfda6535601aff081b6a",
+      "added_at": "2025-07-07T12:34:50Z"
+    },
+    {
+      "name": "Sign of the Times",
+      "id": "5Ohxk2dO5COHF1krpoPigN",
+      "artist": "Harry Styles",
+      "album": "Harry Styles",
+      "image": "https://i.scdn.co/image/ab67616d0000b2736c619c39c853f8b1d67b7859",
+      "added_at": "2025-07-07T12:34:17Z"
+    },
+    {
+      "name": "As It Was",
+      "id": "4Dvkj6JhhA12EX05fT7y2e",
+      "artist": "Harry Styles",
+      "album": "Harry's House",
+      "image": "https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0",
+      "added_at": "2025-07-07T12:32:59Z"
+    }
+  ],
+  "top_tracks": {
+    "short_term": [
+      {
+        "name": "Sign of the Times",
+        "id": "5Ohxk2dO5COHF1krpoPigN",
+        "artist": "Harry Styles",
+        "album": "Harry Styles",
+        "image": "https://i.scdn.co/image/ab67616d0000b2736c619c39c853f8b1d67b7859"
+      },
+      {
+        "name": "As It Was",
+        "id": "4Dvkj6JhhA12EX05fT7y2e",
+        "artist": "Harry Styles",
+        "album": "Harry's House",
+        "image": "https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0"
+      },
+      {
+        "name": "golden hour",
+        "id": "5odlY52u43F5BjByhxg7wg",
+        "artist": "JVKE",
+        "album": "this is what ____ feels like (Vol. 1-4)",
+        "image": "https://i.scdn.co/image/ab67616d0000b273c2504e80ba2f258697ab2954"
+      },
+      {
+        "name": "Watermelon Sugar",
+        "id": "6UelLqGlWMcVH1E5c4H7lY",
+        "artist": "Harry Styles",
+        "album": "Fine Line",
+        "image": "https://i.scdn.co/image/ab67616d0000b27377fdcfda6535601aff081b6a"
+      },
+      {
+        "name": "THOUSAND MILES",
+        "id": "5pFfMng1YFOQjFtBiRgLmD",
+        "artist": "The Kid LAROI",
+        "album": "THE FIRST TIME (DELUXE VERSION)",
+        "image": "https://i.scdn.co/image/ab67616d0000b273127bb9583e9861edbcde38f6"
+      }
+    ],
+    "medium_term": [
+      {
+        "name": "Sign of the Times",
+        "id": "5Ohxk2dO5COHF1krpoPigN",
+        "artist": "Harry Styles",
+        "album": "Harry Styles",
+        "image": "https://i.scdn.co/image/ab67616d0000b2736c619c39c853f8b1d67b7859"
+      },
+      {
+        "name": "As It Was",
+        "id": "4Dvkj6JhhA12EX05fT7y2e",
+        "artist": "Harry Styles",
+        "album": "Harry's House",
+        "image": "https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0"
+      },
+      {
+        "name": "golden hour",
+        "id": "5odlY52u43F5BjByhxg7wg",
+        "artist": "JVKE",
+        "album": "this is what ____ feels like (Vol. 1-4)",
+        "image": "https://i.scdn.co/image/ab67616d0000b273c2504e80ba2f258697ab2954"
+      },
+      {
+        "name": "Watermelon Sugar",
+        "id": "6UelLqGlWMcVH1E5c4H7lY",
+        "artist": "Harry Styles",
+        "album": "Fine Line",
+        "image": "https://i.scdn.co/image/ab67616d0000b27377fdcfda6535601aff081b6a"
+      },
+      {
+        "name": "THOUSAND MILES",
+        "id": "5pFfMng1YFOQjFtBiRgLmD",
+        "artist": "The Kid LAROI",
+        "album": "THE FIRST TIME (DELUXE VERSION)",
+        "image": "https://i.scdn.co/image/ab67616d0000b273127bb9583e9861edbcde38f6"
+      }
+    ],
+    "long_term": [
+      {
+        "name": "As It Was",
+        "id": "4Dvkj6JhhA12EX05fT7y2e",
+        "artist": "Harry Styles",
+        "album": "Harry's House",
+        "image": "https://i.scdn.co/image/ab67616d0000b2732e8ed79e177ff6011076f5f0"
+      },
+      {
+        "name": "Sign of the Times",
+        "id": "5Ohxk2dO5COHF1krpoPigN",
+        "artist": "Harry Styles",
+        "album": "Harry Styles",
+        "image": "https://i.scdn.co/image/ab67616d0000b2736c619c39c853f8b1d67b7859"
+      },
+      {
+        "name": "golden hour",
+        "id": "4yNk9iz9WVJikRFle3XEvn",
+        "artist": "JVKE",
+        "album": "this is what falling in love feels like (554Hz)",
+        "image": "https://i.scdn.co/image/ab67616d0000b2730af4476af141051c728ee8b9"
+      },
+      {
+        "name": "Watermelon Sugar",
+        "id": "6UelLqGlWMcVH1E5c4H7lY",
+        "artist": "Harry Styles",
+        "album": "Fine Line",
+        "image": "https://i.scdn.co/image/ab67616d0000b27377fdcfda6535601aff081b6a"
+      },
+      {
+        "name": "Anti-Hero",
+        "id": "0V3wPSX9ygBnCm8psDIegu",
+        "artist": "Taylor Swift",
+        "album": "Midnights",
+        "image": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5"
+      },
+      {
+        "name": "THOUSAND MILES",
+        "id": "5pFfMng1YFOQjFtBiRgLmD",
+        "artist": "The Kid LAROI",
+        "album": "THE FIRST TIME (DELUXE VERSION)",
+        "image": "https://i.scdn.co/image/ab67616d0000b273127bb9583e9861edbcde38f6"
+      }
+    ]
+  }
+}

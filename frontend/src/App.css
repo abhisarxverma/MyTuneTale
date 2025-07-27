@@ -1,0 +1,7 @@
+:root {
+    --spotify-color: #1ED760;
+}
+
+.notFoundLogo {
+    transition: all 0.3s ease-in-out;
+}

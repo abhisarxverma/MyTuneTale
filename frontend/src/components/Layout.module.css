@@ -1,0 +1,21 @@
+
+.container {
+    flex: 1;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 1rem;
+    padding-block: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    background: transparent;
+}
+
+@media (min-width: 35rem) {
+    .container {
+        padding: 2rem;
+    }
+}
