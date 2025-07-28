@@ -24,19 +24,29 @@ export function SpotifyProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   function fetchData() {
+    
+    const token_info = localStorage.getItem("token_info");
+    if (!token_info) {
+      setStatus("unauthenticated");
+      return;
+    }
+
     setStatus("loading");
+
     api
-      .get("/me/")
+      .post("/me/", {
+        token_info: JSON.parse(token_info),
+      })
       .then((res) => {
         const data = res.data;
-        console.log("API/ME RESPONSE :", data)
-        if (data?.data) {
+        if (data.success) {
+          console.log("API/ME fetch successful !", data)
           setPersona(data.data);
           setStatus("authenticated");
+          setTimeout(() => navigate("/home"), 300)
         } else {
-          console.log("API/ME EMPTY DATA :", data);
+          console.log("API/ME fetch failed !", data)
           setStatus("unauthenticated");
-          navigate("/");
         }
       })
       .catch((error) => {
@@ -51,7 +61,9 @@ export function SpotifyProvider({ children }: { children: ReactNode }) {
 
   const connectSpotify = async () => {
     setStatus("loading");
-    window.location.href = "/api/connect-spotify";
+    const token_info = localStorage.getItem("token_info");
+    const encoded_token_info = encodeURIComponent(JSON.stringify(token_info));
+    window.location.href = `/api/connect-spotify?token_info=${encoded_token_info}`;
   };
 
 
@@ -74,23 +86,47 @@ export function SpotifyCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    const searchParams = new URLSearchParams(window.location.search);
+
+    if (!searchParams) {
+      console.log("No search params found, redirecting...");
+      navigate("/")
+    }
+
+    const decoded_token_info = decodeURIComponent(searchParams.get("token_info")!)
+    console.log("DECODED TOKEN INFO :", decoded_token_info)
+
+    const token_info = JSON.parse(decoded_token_info)
+    console.log("Token info given to callback:", token_info);
+
+    if (!token_info) {
+      navigate("/");
+      return;
+    }
+
+    localStorage.setItem("token_info", JSON.stringify(token_info));
+
     api
-      .get("/me/")
+      .post("/me/", {
+        token_info: token_info,
+      })
       .then((res) => {
         const data = res.data;
         console.log("Spotify /me response:", data);
 
         if (data.success) {
+          console.log("Persona data fetched successfully, redirecting...", data)
           setPersona(data.data);
           setTimeout(() => navigate("/home"), 300);
         } else {
-          console.warn("Missing persona data from api/me response, redirecting...");
+          console.log("Missing persona data from api/me response, redirecting...", data);
           setPersona(null);
           navigate("/");
         }
       })
       .catch((error) => {
-        console.error("Error during persona fetch:", error);
+        console.log("Error during persona fetch:", error);
         setPersona(null);
         navigate("/");
       });

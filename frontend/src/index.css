@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 
 html {
-  font-size: clamp(10px, 2vw + .75px, 16px);
+  font-size: clamp(10px, 2vw + .75px, 13px);
 }
 
 body {

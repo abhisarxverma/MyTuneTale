@@ -17,7 +17,9 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 
 import asyncio
-from urllib.parse import urlencode
+from urllib.parse import quote
+from URLDecoder.decoder import URLDecoder
+decoder = URLDecoder()
 import json
 
 CLIENT_ID = config("SF_CLIENT_ID")
@@ -70,7 +72,10 @@ def get_spotify_oauth():
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
         redirect_uri=REDIRECT_URI,
-        scope=SCOPE
+        scope=SCOPE,
+        cache_handler=None,
+        cache_path=None,
+        show_dialog=True
     )
 
 def refresh_token_if_expired(token_info: dict):
@@ -82,19 +87,35 @@ def refresh_token_if_expired(token_info: dict):
 
 @app.get("/api/connect-spotify")
 async def login(request: Request):
-    print("CONNECT SPOTIFY INCOMING SPOTIFY :", request.session)
 
-    token_info = request.session.pop(TOKEN_SESSION_KEY, None)
+    given_token_info = request.query_params.get("token_info", None)
+
+    token_info = None
+
+    if given_token_info:
+        try:
+            decoded_info = decoder.to_dict(given_token_info)
+            print("GIVEN TOKEN INFO TO CONNECT SPOTIFY :", decoded_info)
+            token_info = decoded_info
+        except json.JSONDecodeError:
+            pass
 
     if token_info:
+        print("TOKEN INFO TYPE :", type(token_info))
         new_token_info = refresh_token_if_expired(token_info)
-        request.session[TOKEN_SESSION_KEY] = new_token_info.get("access_token")
+        access_token = new_token_info.get("access_token")
+        sp = Spotify(auth=access_token)
+        user = sp.current_user()
+        username = user["display_name"]
+        userid = user["id"]
+        debugPrint(f"USER REQUESTED TO CONNECT SPOTIFY : {username}, ID : {userid}")
         debugPrint("Token is validated, redirecting to callback")
-        return RedirectResponse(url=callback_redirect)
+        encoded_data = quote(json.dumps((new_token_info)))
+        redirect_url = f"{callback_redirect}?token_info={encoded_data}"
+        return RedirectResponse(url=redirect_url)
 
     auth_url = get_spotify_oauth().get_authorize_url()
     debugPrint("Redirecting to Spotify authorization URL:"+auth_url)
-    request.session[TOKEN_SESSION_KEY] = None
     return RedirectResponse(url=auth_url)
 
 @app.get("/callback")
@@ -102,58 +123,64 @@ def callback(request: Request):
     code = request.query_params.get("code")
     if not code:
         print("Missing code in callback request returning error in url")
-        return RedirectResponse(url="/")
+        return RedirectResponse(url=callback_redirect)
 
     token_info = get_spotify_oauth().get_access_token(code, as_dict=True)
     print("TOKEN INFO RECEIVED FROM SPOTIFY :", token_info)
-    request.session[TOKEN_SESSION_KEY] = token_info
-    return RedirectResponse(url=callback_redirect)
+    encoded_info = quote(json.dumps((token_info)))
+    redirect_url = f"{callback_redirect}?token_info={encoded_info}"
+    return RedirectResponse(url=redirect_url)
 
-@app.get("/api/me/")
-def user_spotify_data(request: Request):
-    print("INCOMING SPOTIFY DATA REQUEST SESSION:", request.session)
-    token_info = request.session.get(TOKEN_SESSION_KEY, None)
+@app.post("/api/me/")
+async def user_spotify_data(request: Request):
+
+    body = await request.json()
+
+    print("RAW BODY IN ME :", body)
+
+    token_info = body.get("token_info", None)
 
     if not token_info:
-        print("No token info found, redirecting to login")
-        return JSONResponse(status_code=401, content={
-            "success": False,
-            "message": "Unauthorized. Please log in again.",
-            "data": None
+        print("Missing access token in header")
+        return JSONResponse(content={
+            "success" : False,
+            "message" : "Missing access token in header",
+            "data" : None
         })
+    
+    access_token = token_info.get("access_token", None)
 
-    token_info = refresh_token_if_expired(token_info)
-    sp = Spotify(auth=token_info["access_token"])
+    sp = Spotify(auth=access_token)
 
     try:
         user_profile = sp.current_user()
         user_id = user_profile["id"]
     except SpotifyException as e:
-        auth_url = get_spotify_oauth().get_authorize_url()
+        print("Failed to fetch the user's user id :", str(e))
         return JSONResponse(status_code=401, content={
             "success": False,
-            "message": "Error occured :"+e,
+            "message": "Error occured :"+str(e),
             "data": None
         })
 
-    try:
-        raw_updated_at = supabase.table("users").select("updated_at").eq("id", user_id).single().execute()   
-        if raw_updated_at.data and raw_updated_at.data.get("updated_at"):
-            updated_at = raw_updated_at.data["updated_at"]
-            print(f"User {user_id} data last updated at:", updated_at)
-            if updated_at and datetime.now() - datetime.fromisoformat(updated_at).replace(tzinfo=None) < timedelta(days=10): 
-                result = supabase.table("users").select("data").eq("id", user_id).single().execute()
-                # print("Result from the supabase :", result)
-                if result.data and result.data.get("data"):
-                    print("Returning existing spotify data from the supabase")
-                    return JSONResponse({
-                        "success": True,
-                        "message": "User data returned from Supabase",
-                        "data": result.data["data"],
-                    })
-            print("User last updated at 10 days ago, so fetching fresh data from Spotify")
-    except Exception as e:
-        pass
+    # try:
+    #     raw_updated_at = supabase.table("users").select("updated_at").eq("id", user_id).single().execute()   
+    #     if raw_updated_at.data and raw_updated_at.data.get("updated_at"):
+    #         updated_at = raw_updated_at.data["updated_at"]
+    #         print(f"User {user_id} data last updated at:", updated_at)
+    #         if updated_at and datetime.now() - datetime.fromisoformat(updated_at).replace(tzinfo=None) < timedelta(days=10): 
+    #             result = supabase.table("users").select("data").eq("id", user_id).single().execute()
+    #             # print("Result from the supabase :", result)
+    #             if result.data and result.data.get("data"):
+    #                 print("Returning existing spotify data from the supabase")
+    #                 return JSONResponse({
+    #                     "success": True,
+    #                     "message": "User data returned from Supabase",
+    #                     "data": result.data["data"],
+    #                 })
+    #         print("User last updated at 10 days ago, so fetching fresh data from Spotify")
+    # except Exception as e:
+    #     pass
 
     try:
         data = {
@@ -179,9 +206,10 @@ def user_spotify_data(request: Request):
         })
 
     except SpotifyException as e:
+        print("Failed to fetch Spotify data :"+str(e))
         return JSONResponse(status_code=500, content={
             "success": False,
-            "message": f"Failed to fetch Spotify data : {e}",
+            "message": f"Failed to fetch Spotify data : {str(e)}",
             "data": None
         })
 

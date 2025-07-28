@@ -108,7 +108,7 @@ def fetch_all_saved_tracks(sp):
             for item in items
         ])
         offset += limit
-    return saved_tracks
+    return saved_tracks if saved_tracks else None
 
 def fetch_all_top_tracks(sp):
     top_tracks = {}
@@ -116,24 +116,35 @@ def fetch_all_top_tracks(sp):
     limit = 50
 
     for term in ["short_term", "medium_term", "long_term"]:
-        while True:
-            top = sp.current_user_top_tracks(time_range=term, limit=limit, offset=offset)
-            items = top["items"]
-            if not items: break
-            top_tracks[term] = [
-                {
-                    "name": item['name'],
-                    "id": item['id'],
-                    "artist": item['artists'][0]['name'],
-                    "album": item['album']['name'],
-                    "image": item['album']['images'][0]['url'] if item['album']['images'] else None
-                }
-                for item in items
-            ]
-            offset += limit
+        term_tracks = []
         offset = 0
+        while True:
+            try:
+                top = sp.current_user_top_tracks(time_range=term, limit=limit, offset=offset)
+                items = top["items"]
+                if not items: break
+                term_tracks.extend([
+                    {
+                        "name": item['name'],
+                        "id": item['id'],
+                        "artist": item['artists'][0]['name'],
+                        "album": item['album']['name'],
+                        "image": item['album']['images'][0]['url'] if item['album']['images'] else None
+                    }
+                    for item in items
+                ])
+
+                offset += limit
+
+                if len(items) < limit:
+                    break
+            
+            except Exception as e:
+                break
+
+        top_tracks[term] = term_tracks if term_tracks else None
     
-    return top_tracks
+    return top_tracks if top_tracks and any(top_tracks.values()) else None
 
 def fetch_all_top_artists(sp):
     top_artists = {}
@@ -141,31 +152,39 @@ def fetch_all_top_artists(sp):
 
     for term in ["short_term", "medium_term", "long_term"]:
         offset = 0
-        artists = []
+        term_artists = []
 
         while True:
-            response = sp.current_user_top_artists(time_range=term, limit=limit, offset=offset)
-            items = response.get("items", [])
-            if not items:
+            try:
+                response = sp.current_user_top_artists(time_range=term, limit=limit, offset=offset)
+                items = response.get("items", [])
+                if not items:
+                    break
+
+                for item in items:
+                    term_artists.extend([
+                    {
+                        "id": item["id"],
+                        "name": item["name"],
+                        "genres": item.get("genres", []),
+                        "popularity": item.get("popularity"),
+                        "followers": item.get("followers", {}).get("total"),
+                        "image_url": item["images"][0]["url"] if item.get("images") else None,
+                        "external_url": item.get("external_urls", {}).get("spotify"),
+                        "uri": item.get("uri"),
+                    }])
+
+                offset += limit
+
+                if len(items) < limit:
+                    break
+            
+            except Exception as e:
                 break
 
-            for item in items:
-                artists.append({
-                    "id": item["id"],
-                    "name": item["name"],
-                    "genres": item.get("genres", []),
-                    "popularity": item.get("popularity"),
-                    "followers": item.get("followers", {}).get("total"),
-                    "image_url": item["images"][0]["url"] if item.get("images") else None,
-                    "external_url": item.get("external_urls", {}).get("spotify"),
-                    "uri": item.get("uri"),
-                })
+        top_artists[term] = term_artists if term_artists else None
 
-            offset += limit
-
-        top_artists[term] = artists
-
-    return top_artists
+    return top_artists if top_artists and any(top_artists.values()) else None
 
 def fetch_all_playlists(sp):
     playlists = []
@@ -173,68 +192,78 @@ def fetch_all_playlists(sp):
     limit = 50
 
     while True:
-        response = sp.current_user_playlists(limit=limit, offset=offset)
-        items = response["items"]
-        if not items:
+        try:
+            response = sp.current_user_playlists(limit=limit, offset=offset)
+            items = response["items"]
+            if not items:
+                break
+
+            for playlist in items:
+                playlist_id = playlist["id"]
+
+                playlist_data = {
+                    "id": playlist_id,
+                    "name": playlist["name"],
+                    "description": playlist.get("description", ""),
+                    "owner": playlist["owner"]["display_name"],
+                    "collaborative": playlist["collaborative"],
+                    "public": playlist["public"],
+                    "total_tracks": playlist["tracks"]["total"],
+                    "image": playlist["images"][0]["url"] if playlist["images"] else None,
+                    "tracks": []
+                }
+
+                track_offset = 0
+                track_limit = 100  
+
+                while True:
+                    track_response = sp.playlist_items(
+                        playlist_id,
+                        limit=track_limit,
+                        offset=track_offset,
+                        additional_types=["track"]
+                    )
+                    track_items = track_response["items"]
+                    if not track_items:
+                        break
+
+                    for item in track_items:
+                        track = item.get("track")
+                        if not track or not track.get("id"):
+                            continue
+
+                        playlist_data["tracks"].append({
+                            "id": track["id"],
+                            "name": track["name"],
+                            "artist": track["artists"][0]["name"],
+                            "album": track["album"]["name"],
+                            "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
+                            "added_at": item.get("added_at")  
+                        })
+
+                    track_offset += track_limit
+                    
+                    if len(track_items) < track_limit: 
+                        break
+
+                if playlist_data["tracks"] : playlists.append(playlist_data)
+
+            offset += limit
+
+            if len(items) < limit:
+                break
+
+        except Exception as e:
             break
 
-        for playlist in items:
-            playlist_id = playlist["id"]
-
-            playlist_data = {
-                "id": playlist_id,
-                "name": playlist["name"],
-                "description": playlist.get("description", ""),
-                "owner": playlist["owner"]["display_name"],
-                "collaborative": playlist["collaborative"],
-                "public": playlist["public"],
-                "total_tracks": playlist["tracks"]["total"],
-                "image": playlist["images"][0]["url"] if playlist["images"] else None,
-                "tracks": []
-            }
-
-            track_offset = 0
-            track_limit = 100  
-
-            while True:
-                track_response = sp.playlist_items(
-                    playlist_id,
-                    limit=track_limit,
-                    offset=track_offset,
-                    additional_types=["track"]
-                )
-                track_items = track_response["items"]
-                if not track_items:
-                    break
-
-                for item in track_items:
-                    track = item.get("track")
-                    if not track or not track.get("id"):
-                        continue
-
-                    playlist_data["tracks"].append({
-                        "id": track["id"],
-                        "name": track["name"],
-                        "artist": track["artists"][0]["name"],
-                        "album": track["album"]["name"],
-                        "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
-                        "added_at": item.get("added_at")  
-                    })
-
-                track_offset += track_limit
-
-            if playlist_data["tracks"] : playlists.append(playlist_data)
-
-        offset += limit
-
-    return playlists
+    return playlists if playlists else None
 
 def fetch_user_details(sp):
     user_data = sp.current_user()
 
     # Extract useful details
     user_info = {
-        "display_name": user_data.get("display_name"),
+        "display_name": user_data.get("display_name") if user_data.get("display_name") else None,
         "email": user_data.get("email"),
         "id": user_data.get("id"),
         "country": user_data.get("country"),
@@ -244,7 +273,7 @@ def fetch_user_details(sp):
         "external_url": user_data.get("external_urls", {}).get("spotify")
     }
 
-    return user_info
+    return user_info if user_info else None
 
 
 def sort_genres(tracks: list):

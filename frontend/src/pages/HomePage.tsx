@@ -37,8 +37,8 @@ export default function HomePage() {
         if (status !== "authenticated" || !persona) return;
         setData(persona as SpotifyAnalysis)
         setCurrentTimeline({
-            songs_list: positionify(persona?.top_tracks.short_term),
-            top_artists: positionify(persona?.top_artists.short_term),
+            songs_list: positionify(persona?.top_tracks?.short_term),
+            top_artists: positionify(persona?.top_artists?.short_term),
             title: "30 Days",
             tagline: "Fresh drops and recent obsessions—here’s what ruled your month in music."
         } as currentTimeline)
@@ -132,7 +132,7 @@ export default function HomePage() {
                         <AvatarImage src={data.user.profile_image} />
                         <AvatarFallback className={styles.avatarFallback}><User size={"2rem"} /></AvatarFallback>
                     </Avatar>
-                    <h2 className={clsx(styles.nameTitle, "font-onest")}>{data.user.display_name}</h2>
+                    <h2 className={clsx(styles.nameTitle, "font-onest")}>{data.user.display_name ? data.user.display_name : "Spotify User"}</h2>
 
                 </div>
                 <p className={clsx(styles.reflection, "font-kanit text-zinc-300")}>{persona?.ai_analysis?.reflection || "Every track tells a little bit of you."}</p>
@@ -142,22 +142,23 @@ export default function HomePage() {
                         })}
                 </div>}
             </div>
-
+            
+            {data.top_tracks?.long_term && 
             <div className={clsx(styles.mostBox)} >
                 <p className={clsx(styles.boxLabel, "font-kanit flex items-center text-zinc-300")}><Guitar className={clsx(styles.icon, "me-3")} /><span>Your Most Listened Song for an year</span></p>
                 <div className="mt-[1rem] p-3 bg-emerald-800 rounded-md">
                     <SpotifyFrame name={data.top_tracks.long_term[0].name} trackId={data.top_tracks.long_term[0].id} height={152} />
                 </div>
-            </div>
+            </div>}
 
-
+            {data.top_tracks && 
             <div className={clsx(styles.topTracksBox, "bg-[transparent]")}>
                 <div className={styles.boxLabelGroup}>
                     <p className={clsx(styles.boxLabel, "font-kanit flex items-center text-zinc-300")}><Music4 size={"1.5rem"} className={clsx(styles.icon, "me-3")} /><span>Your Top Listenings</span></p>
                     <div className={clsx(styles.boxNavGroup, "bg-zinc-800")}>
-                        <button onClick={() => changeTimeline("30 Days")} className={clsx("30 Days" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>30 Days</button>
-                        <button onClick={() => changeTimeline("6 Months")} className={clsx("6 Months" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>6 Months</button>
-                        <button onClick={() => changeTimeline("1 Year")} className={clsx("1 Year" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>1 Year</button>
+                        {data.top_tracks?.short_term && <button onClick={() => changeTimeline("30 Days")} className={clsx("30 Days" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>30 Days</button>}
+                        {data.top_tracks?.medium_term && <button onClick={() => changeTimeline("6 Months")} className={clsx("6 Months" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>6 Months</button>}
+                        {data.top_tracks?.long_term && <button onClick={() => changeTimeline("1 Year")} className={clsx("1 Year" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>1 Year</button>}
                     </div>
                 </div>
                 <div className={clsx(styles.boxContent, "bg-zinc-800")}>
@@ -200,12 +201,12 @@ export default function HomePage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
 
-            <AllTime />
+            {data.saved_tracks && data.playlists && <AllTime />}
 
-            <AdditionsChart playlists={persona?.playlists}/>
+            {data.saved_tracks && data.playlists && <AdditionsChart playlists={persona?.playlists}/>}
 
             {/* <Story /> */}
         </>
