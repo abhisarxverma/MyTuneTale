@@ -17,7 +17,7 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 
 import asyncio
-import urllib.parse
+from urllib.parse import urlencode
 import json
 
 CLIENT_ID = config("SF_CLIENT_ID")
@@ -41,7 +41,7 @@ debugPrint("CALLBACK REDIRECT :"+callback_redirect)
 
 app = FastAPI()
 
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
+app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", https_only=False)
 app.add_middleware(RateLimitMiddleware)
 
 app.add_middleware(
@@ -80,37 +80,22 @@ def refresh_token_if_expired(token_info: dict):
         print("Token refreshed successfully")
     return token_info
 
-@app.post("/api/connect-spotify")
+@app.get("/api/connect-spotify")
 async def login(request: Request):
-    body = await request.json()
-    token_info = body.get("token_info")
+    print("CONNECT SPOTIFY INCOMING SPOTIFY :", request.session)
+
+    token_info = request.session.pop(TOKEN_SESSION_KEY, None)
 
     if token_info:
         new_token_info = refresh_token_if_expired(token_info)
-        request.session[TOKEN_SESSION_KEY] = token_info.get("access_token")
+        request.session[TOKEN_SESSION_KEY] = new_token_info.get("access_token")
         debugPrint("Token is validated, redirecting to callback")
-        return JSONResponse(
-            status_code=200,
-            content={
-                "success": True,
-                "message": "Token is valid",
-                "new_token_info": new_token_info,
-                "to_redirect" : False,
-                "redirect_url": ""
-            }
-        )
+        return RedirectResponse(url=callback_redirect)
 
     auth_url = get_spotify_oauth().get_authorize_url()
     debugPrint("Redirecting to Spotify authorization URL:"+auth_url)
     request.session[TOKEN_SESSION_KEY] = None
-    return JSONResponse(status_code=200,
-        content={
-        "success": True,
-        "message": "Please redirect to Spotify for authorization",
-        "new_token_info": None,
-        "to_redirect": True,
-        "redirect_url": auth_url
-    })
+    return RedirectResponse(url=auth_url)
 
 @app.get("/callback")
 def callback(request: Request):
@@ -120,20 +105,25 @@ def callback(request: Request):
         return RedirectResponse(url="/")
 
     token_info = get_spotify_oauth().get_access_token(code, as_dict=True)
-    token_info_encoded = urllib.parse.quote(json.dumps(token_info))
-    redirect_url = f"{callback_redirect}?token_info={token_info_encoded}"
-    
-    return RedirectResponse(url=redirect_url)
-
+    print("TOKEN INFO RECEIVED FROM SPOTIFY :", token_info)
+    request.session[TOKEN_SESSION_KEY] = token_info
+    return RedirectResponse(url=callback_redirect)
 
 @app.get("/api/me/")
-def user_spotify_data(request: Request, authorization: str = Header(None)):
-    if not authorization:
-        print("Missing access token in request header, returning error")
-        return JSONResponse(status_code=401, content={"success" : "false", "message": "Missing access token"})
+def user_spotify_data(request: Request):
+    print("INCOMING SPOTIFY DATA REQUEST SESSION:", request.session)
+    token_info = request.session.get(TOKEN_SESSION_KEY, None)
 
-    access_token = authorization.replace("Bearer ", "").strip()
-    sp = Spotify(auth=access_token)
+    if not token_info:
+        print("No token info found, redirecting to login")
+        return JSONResponse(status_code=401, content={
+            "success": False,
+            "message": "Unauthorized. Please log in again.",
+            "data": None
+        })
+
+    token_info = refresh_token_if_expired(token_info)
+    sp = Spotify(auth=token_info["access_token"])
 
     try:
         user_profile = sp.current_user()
@@ -142,10 +132,7 @@ def user_spotify_data(request: Request, authorization: str = Header(None)):
         auth_url = get_spotify_oauth().get_authorize_url()
         return JSONResponse(status_code=401, content={
             "success": False,
-            "to_redirect": True,
-            "message": "Unauthorized. Please log in again.",
-            "redirect_url": auth_url,
-            "from": "spotify",
+            "message": "Error occured :"+e,
             "data": None
         })
 
@@ -161,9 +148,6 @@ def user_spotify_data(request: Request, authorization: str = Header(None)):
                     print("Returning existing spotify data from the supabase")
                     return JSONResponse({
                         "success": True,
-                        "from": "supabase",
-                        "to_redirect": False,
-                        "redirect_url": "",
                         "message": "User data returned from Supabase",
                         "data": result.data["data"],
                     })
@@ -190,9 +174,6 @@ def user_spotify_data(request: Request, authorization: str = Header(None)):
 
         return JSONResponse({
             "success": True,
-            "from": "spotify",
-            "to_redirect": False,
-            "redirect_url": "",
             "message": "Fresh data fetched from Spotify",
             "data": data,
         })
@@ -200,9 +181,6 @@ def user_spotify_data(request: Request, authorization: str = Header(None)):
     except SpotifyException as e:
         return JSONResponse(status_code=500, content={
             "success": False,
-            "from": "spotify",
-            "to_redirect": False,
-            "redirect_url": "",
             "message": f"Failed to fetch Spotify data : {e}",
             "data": None
         })
@@ -285,8 +263,7 @@ async def send_review(review: ReviewPayload):
 def set_session(request: Request):
     print("Incoming session")
     print(request.session)
-    print("Setting session")
-    request.session["FASTAPI"] = {"key" : "This is the key", "value" : "This is the value"}
+    request.session.clear()
     return JSONResponse(status_code=200, content={"success": True, "message": "Session set successfully"})
     
 

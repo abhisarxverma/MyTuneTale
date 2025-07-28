@@ -24,33 +24,25 @@ export function SpotifyProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   function fetchData() {
-    const token_info = localStorage.getItem("spotify_token_info");
-    if (!token_info) {
-      setStatus("unauthenticated");
-      return;
-    }
     setStatus("loading");
-    const access_token = JSON.parse(token_info).access_token;
-    if (!access_token) {
-      setStatus("unauthenticated");
-      return;
-    }
     api
-      .get("/me/", {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      })
+      .get("/me/")
       .then((res) => {
         const data = res.data;
+        console.log("API/ME RESPONSE :", data)
         if (data?.data) {
           setPersona(data.data);
           setStatus("authenticated");
         } else {
+          console.log("API/ME EMPTY DATA :", data);
           setStatus("unauthenticated");
+          navigate("/");
         }
       })
-      .catch(() => setStatus("unauthenticated"));
+      .catch((error) => {
+        console.log("Error in API/ME call :", error)
+        setStatus("unauthenticated")
+      });
   }
 
   useEffect(() => {
@@ -58,43 +50,8 @@ export function SpotifyProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const connectSpotify = async () => {
-    localStorage.removeItem("spotify_token_info");
     setStatus("loading");
-    const raw_token = localStorage.getItem("spotify_token_info");
-    const token_info = raw_token ? JSON.parse(raw_token) : null;
-
-    try {
-      const res = await api.post("/connect-spotify", {
-        token_info: token_info,
-      });
-
-      const data = res.data;
-      console.log("Connect Spotify response:", data);
-
-      if (data.success) {
-        if (data.to_redirect) {
-          setStatus("unauthenticated");
-          console.log("Redirecting to Spotify authorization URL:", data.redirect_url);
-          window.location.href = data.redirect_url;
-        } else {
-          setStatus("authenticated");
-          if (data.new_token_info) {
-            localStorage.setItem("spotify_token_info", JSON.stringify(data.new_token_info));
-            sessionStorage.setItem("spotkfy_token_info", data.new_token_info);
-          }
-          fetchData();
-          navigate("/home");
-        }
-      } else {
-        console.error("Error connecting to Spotify:", data.message);
-        setStatus("unauthenticated");
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Connection error:", error);
-      setStatus("unauthenticated");
-      navigate("/");
-    }
+    window.location.href = "/api/connect-spotify";
   };
 
 
@@ -117,52 +74,26 @@ export function SpotifyCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const rawTokenInfo = new URLSearchParams(window.location.search).get("token_info");
-    if (!rawTokenInfo) {
-      console.warn("Missing token_info in URL, redirecting...");
-      navigate("/");
-      return;
-    }
+    api
+      .get("/me/")
+      .then((res) => {
+        const data = res.data;
+        console.log("Spotify /me response:", data);
 
-    try {
-      const tokenInfo = JSON.parse(decodeURIComponent(rawTokenInfo));
-      console.log("Decoded token info:", tokenInfo);
-
-      localStorage.setItem("spotify_token_info", JSON.stringify(tokenInfo));
-
-      api
-        .get("/me/", {
-          headers: {
-            Authorization: `Bearer ${tokenInfo.access_token}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data;
-          console.log("Spotify /me response:", data);
-
-          if (data.success) {
-            if (data.to_redirect) {
-              console.log("Redirecting to Spotify authorization URL:", data.redirect_url);
-              window.location.href = data.redirect_url;
-            } else if (data?.data) {
-              setPersona(data.data);
-              setTimeout(() => navigate("/home"), 300);
-            } else {
-              console.warn("Missing persona data, redirecting...");
-              setPersona(null);
-              navigate("/");
-            }
-          }
-        })
-        .catch((error) => {
-          console.error("Error during persona fetch:", error);
+        if (data.success) {
+          setPersona(data.data);
+          setTimeout(() => navigate("/home"), 300);
+        } else {
+          console.warn("Missing persona data from api/me response, redirecting...");
           setPersona(null);
           navigate("/");
-        });
-    } catch (err) {
-      console.error("Invalid token_info format:", err);
-      navigate("/");
-    }
+        }
+      })
+      .catch((error) => {
+        console.error("Error during persona fetch:", error);
+        setPersona(null);
+        navigate("/");
+      });
   }, [setPersona, navigate]);
 
 
