@@ -168,7 +168,7 @@ def fetch_all_top_artists(sp):
                         "name": item["name"],
                         "genres": item.get("genres", []),
                         "popularity": item.get("popularity"),
-                        "followers": item.get("followers", {}).get("total"),
+                        # "followers": item.get("followers", {}).get("total"),
                         "image_url": item["images"][0]["url"] if item.get("images") else None,
                         "external_url": item.get("external_urls", {}).get("spotify"),
                         "uri": item.get("uri"),
@@ -191,6 +191,8 @@ def fetch_all_playlists(sp):
     offset = 0
     limit = 50
 
+    username = sp.current_user()["display_name"]
+
     while True:
         try:
             response = sp.current_user_playlists(limit=limit, offset=offset)
@@ -212,6 +214,8 @@ def fetch_all_playlists(sp):
                     "image": playlist["images"][0]["url"] if playlist["images"] else None,
                     "tracks": []
                 }
+
+                if playlist_data["owner"] != username: break
 
                 track_offset = 0
                 track_limit = 100  
@@ -267,9 +271,9 @@ def fetch_user_details(sp):
         "email": user_data.get("email"),
         "id": user_data.get("id"),
         "country": user_data.get("country"),
-        "product": user_data.get("product"), 
+        # "product": user_data.get("product"), 
         "profile_image": user_data.get("images")[0]["url"] if user_data.get("images") else None,
-        "followers": user_data.get("followers", {}).get("total"),
+        # "followers": user_data.get("followers", {}).get("total"),
         "external_url": user_data.get("external_urls", {}).get("spotify")
     }
 

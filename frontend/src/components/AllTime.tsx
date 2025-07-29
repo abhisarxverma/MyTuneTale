@@ -9,6 +9,7 @@ import SpotifyFrame from "./SpotifyFrame";
 import { CalendarFold, Heart } from "lucide-react";
 import { type SpotifyAnalysis } from "@/lib/types.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import LazySpotifyFrame from "./LazySpotifyFrame";
 
 function areSameDate(date1: Date, date2: Date) {
     if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
@@ -127,11 +128,11 @@ export default function AllTime() {
                     }
                     className={clsx(styles.calendar, "rdp-root bg-zinc-800 p-2 ")}
                 />
-                <div className={clsx(styles.result, "bg-zinc-800")}>
-                    <div className={clsx(styles.resultSongsBox, styles.dayResults, "transition-all duration-300")}>
-                        <p className={clsx(styles.boxLabel, "font-dm flex items-center gap-[.7rem] text-zinc-500")}><CalendarFold size={".8rem"} /><span>Songs added on {day} {month} {year}</span></p>
+                <div className={clsx(styles.result)}>
+                    <p className={clsx(styles.boxLabel, "font-kanit text-zinc-300")}><CalendarFold className={styles.calendarIcon} /><span>Songs added on {day} {month} {year}</span></p>
+                    <div className={clsx(styles.resultSongsBox, "bg-zinc-800")}>
                         {dayResults.length > 0 ?
-                            <div className={clsx(styles.playlistList, styles.dayPlaylistList, styles.customScroll, "bg-zinc-900 ")}>
+                            <div className={clsx(styles.playlistList, styles.dayPlaylistList, styles.customScroll, "bg-zinc-800 p-4 ")}>
                                 {
                                     dayResults.map((playlist) => {
                                         return (
@@ -144,18 +145,18 @@ export default function AllTime() {
                                                     {playlist.playlistName}
                                                 </p>
                                                 <div className={clsx(styles.songsList, styles.daySongsList, "bg-zinc-900")}>{playlist.tracks.map((song) => (
-                                                    <SpotifyFrame name={song.name} trackId={song.id} key={song.id} height={80} theme={1} />
+                                                    <LazySpotifyFrame name={song.name} trackId={song.id} key={song.id} height={80} theme={1} />
                                                 ))}</div>
                                             </>
                                         )
                                     })}
                             </div>
-                            : <p className="font-dm text-zinc-400 rounded-md min-h-[50px] bg-neutral-900 mb-[1rem] flex justify-center items-center">You saved no songs on this specific day</p>}
+                            : <p className="px-3 font-dm text-zinc-400 rounded-md min-h-[50px] bg-zinc-800 mb-[1rem] flex justify-center items-center"><span className="bg-zinc-800 w-full h-full text-[1.2rem] px-3">You saved no songs on this specific day</span></p>}
                     </div>
-                    <div className={clsx(styles.resultSongsBox)}>
-                        <p className={clsx(styles.boxLabel, "font-dm flex items-center gap-[.7rem] text-zinc-500")}><CalendarFold size={".8rem"} /><span>Songs added in {month} {year}</span></p>
+                    <p className={clsx(styles.boxLabel, "font-kanit text-zinc-300")}><CalendarFold className={styles.calendarIcon} /><span>Songs added in {month} {year}</span></p>
+                    <div className={clsx(styles.resultSongsBox, "bg-zinc-800")}>
                         {monthResults.length > 0 ?
-                            <div className={clsx(styles.playlistList, styles.customScroll, "bg-zinc-800")}>
+                            <div className={clsx(styles.playlistList, styles.customScroll, "bg-zinc-800 p-4")}>
                                 {monthResults.map((playlist) => {
                                     return (
                                         <>
@@ -167,13 +168,13 @@ export default function AllTime() {
                                                 {playlist.playlistName}
                                             </p>
                                             <div className={clsx(styles.songsList, "bg-zinc-900")}>{playlist.tracks.map((song) => (
-                                                <SpotifyFrame name={song.name} trackId={song.id} key={song.id} height={80} theme={1} />
+                                                <LazySpotifyFrame name={song.name} trackId={song.id} key={song.id} height={80} theme={1} />
                                             ))}</div>
                                         </>
                                     )
                                 })}
                             </div> :
-                            <p className="font-dm text-zinc-400 min-h-[5rem] px-4 py-2 bg-neutral-900 mb-[1rem] flex justify-center items-center">You saved no songs in this month</p>}
+                            <p className="p-1 px-3 font-dm text-zinc-400 rounded-md min-h-[50px] bg-zinc-800 mb-[1rem] flex justify-center items-center"><span className="bg-zinc-800 w-full text-[1.2rem] px-3">You saved no songs in this month</span></p>}
                     </div>
                 </div>
             </div>

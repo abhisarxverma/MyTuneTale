@@ -77,6 +77,8 @@ export interface SpotifyAnalysis {
     ai_analysis: AiAnalysis | undefined;
 }
 
+export type SpotifyAnalysisState = SpotifyAnalysis | null;
+
 export interface AiAnalysis {
     poetic_title: string;
     mood: string;

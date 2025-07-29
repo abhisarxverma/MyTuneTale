@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    height: 1220px;
+    height: auto;
     margin-bottom: 2rem;
 }
 
@@ -26,10 +26,6 @@
 }
 
 @media  (min-width: 45rem) {
-    .allTimeBox {
-        /* flex-direction: row; */
-        /* height: auto; */
-    }
 
     .title {
         font-size: 1.5rem;
@@ -48,31 +44,40 @@
     border-radius: 10px;
     flex: 1;
     padding: .5rem;
-    min-height: 800px;
+    height: auto;
     /* max-height: 700px; */
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     transition: all 1s ease-in;
+    background: transparent;
 }
 
 .boxLabel {
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: 1.6rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-block-end: .5rem;
+}
+
+.calendarIcon {
+    font-size: 1.5rem;
+    color: #1ED760;
 }
 
 .resultSongsBox {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    gap: .5rem;
     overflow: hidden;
     min-height: 80px;
     transition: all 1s ease-in;
+    border-radius: 10px;
 }
 
 .playlistList {
+    height: auto;
+    max-height: 500px;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -99,7 +104,7 @@
 .songsList{
     padding: .5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1rem;
 }
 

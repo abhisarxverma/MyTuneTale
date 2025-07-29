@@ -54,11 +54,11 @@ export function AdditionsChart({ playlists }: { playlists: PlaylistCollection | 
 
     return (
         <div>
-            <h2 className="font-dm font-bold text-[1.5rem] mb-[1.5rem] border-b-2 border-[#8A2BE2] w-[max-content] pb-1">Your Song Additions</h2>
+            <p className="font-dm font-bold text-[1.5rem] mb-[.5rem] border-b-2 border-[#8A2BE2] w-[max-content] pb-1">Your Song Additions</p>
+            <p className="font-dm text-zinc-300 mb-[1.5rem]">These tracks aren't just additions, they're memories from your past—college, first loves, and everything in between.</p>
             <Card className="bg-zinc-800 text-white border-0">
                 <CardHeader>
                     <CardTitle className="font-dm text-[1.2rem] font-semibold flex items-center gap-1"><LibraryBig className="font-bold" size={"1.3rem"} />Your Monthly Song Addition Journey</CardTitle>
-                    <CardDescription className="font-dm text-zinc-300">These tracks aren't just additions, they're memories from your past—college, first loves, and everything in between.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ChartContainer config={{ count: { label: "Tracks Added", color: "var(--chart-1)" } }} className="!aspect-auto h-[280px] font-dm bg-black">

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React, { useState } from "react";
+import styles from "./SongCard.module.css";
 
 type SpotifyFrameProps = {
     name : string | undefined;
@@ -7,14 +8,12 @@ type SpotifyFrameProps = {
     height?: number | undefined;
     theme?: number | undefined;
     trackId: string | undefined;
-    artist: string | undefined;
-    album: string | undefined;
     image_url: string | undefined;
+    artist: string | undefined;
 };
 
-const SpotifyFrame: React.FC<SpotifyFrameProps> = ({ name=undefined, position=undefined, trackId="", height=152, theme=1 }) => {
-    const [loaded, setLoaded] = useState(false);
-    const embedUrl = `https://open.spotify.com/embed/track/${trackId}?theme=${theme}`;
+const SongCard: React.FC<SpotifyFrameProps> = ({ name=undefined, artist, position=undefined, trackId="", height=152, theme=1, image_url }) => {
+    const [loaded, setLoaded] = useState(true);
     
     return (
         <div className={clsx(`max-w-[100%] h-[80px] sm:h-[${height}px] overflow-hidden rounded-lg shadow-md relative border-box`)}>
@@ -22,18 +21,17 @@ const SpotifyFrame: React.FC<SpotifyFrameProps> = ({ name=undefined, position=un
             {!loaded && (
                 <div className="absolute z-1 inset-0 bg-zinc-800 animate-pulse rounded-md"></div>
             )}
-            <iframe
-                src={embedUrl}
-                width="100%"
-                height="100%"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                style={{ border: "none", visibility : loaded ? "visible" : "hidden" }}
-                title={name + " Spotify Player"}
-                onLoad={() => setLoaded(true)}
-            ></iframe>
+
+            <div className={styles.songCard}>
+                <img className={styles.songImage} src={image_url || "/boy.jpg"} alt={`${name} song image`} />
+                <div className={styles.songInfo}>
+                    <p className={styles.songName}>{name}</p>
+                    <p className={styles.songArtist}>{artist}</p>
+                </div>
+            </div>
+
         </div>
     );
 };
 
-export default SpotifyFrame;
+export default SongCard;

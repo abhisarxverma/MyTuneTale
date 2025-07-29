@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { useNavigate } from "react-router-dom";
 import api from "@/lib/api.ts";
 import { Loader2 } from "lucide-react";
-import { type SpotifyAnalysis } from "@/lib/types.ts";
+import { type SpotifyAnalysis, type SpotifyUser } from "@/lib/types.ts";
 
 type SpotifyContextType = {
   status: "idle" | "loading" | "authenticated" | "unauthenticated";
@@ -42,6 +42,48 @@ export function SpotifyProvider({ children }: { children: ReactNode }) {
         if (data.success) {
           console.log("API/ME fetch successful !", data)
           setPersona(data.data);
+          setStatus("authenticated");
+          setTimeout(() => navigate("/home"), 300)
+        } else {
+          console.log("API/ME fetch failed !", data)
+          setStatus("unauthenticated");
+        }
+      })
+      .catch((error) => {
+        console.log("Error in API/ME call :", error)
+        setStatus("unauthenticated")
+      });
+  }
+
+  function fetchUser() {
+    
+    const token_info = localStorage.getItem("token_info");
+    if (!token_info) {
+      setStatus("unauthenticated");
+      return;
+    }
+
+    const user_id = localStorage.getItem("user_id");
+    if (!user_id) {
+      setStatus("unauthenticated")
+      return;
+    }
+
+    setStatus("loading");
+
+    api
+      .post(`/user/`, {
+        token_info: JSON.parse(token_info),
+        user_id: JSON.parse(user_id),
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.success) {
+          console.log(`API/USER fetch successful !`, data)
+          setPersona(prev => {
+            if (!prev) return null;
+            return {...prev, user: data.data}
+          });
           setStatus("authenticated");
           setTimeout(() => navigate("/home"), 300)
         } else {

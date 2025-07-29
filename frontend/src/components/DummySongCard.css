@@ -1,0 +1,74 @@
+/* SongCard.css */
+.song-card {
+  background-color: #18181b; /* zinc-800 */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+  padding: 12px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  animation: pulse 2s infinite;
+}
+
+.song-position {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.song-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.song-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.song-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-name {
+  color: #ffffff;
+  font-size: 18px;
+  margin: 0;
+}
+
+.song-artist,
+.song-album {
+  color: #a1a1aa;
+  font-size: 14px;
+  margin: 2px 0 0;
+}
+
+/* Simple shimmer animation */
+@keyframes pulse {
+  0% {
+    background-color: #18181b;
+  }
+  50% {
+    background-color: #27272a;
+  }
+  100% {
+    background-color: #18181b;
+  }
+}

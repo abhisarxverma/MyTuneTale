@@ -1,0 +1,13 @@
+
+.wordcloud_box {
+    height: 400px;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.wordcloud {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

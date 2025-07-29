@@ -12,6 +12,10 @@ import { type SpotifyAnalysis, type Song, type SpotifyArtist } from "@/lib/types
 import { AdditionsChart } from "@/components/AdditionsChart";
 import Story from "@/components/Story";
 import { Badge } from "@/components/ui/badge";
+import WordCloud from "@/components/WordCloud";
+import SongCard from "@/components/SongCard";
+import LazySpotifyFrame from "@/components/LazySpotifyFrame";
+import { useNavigate } from "react-router-dom";
 
 interface currentTimeline {
     songs_list : Song[] | undefined;
@@ -30,6 +34,7 @@ export default function HomePage() {
     const [artistsList, setArtistsList] = useState<SpotifyArtist[] | undefined>(undefined);
     const [songSearchQuery, setSongSearchQuery] = useState<string>("");
     const [artistSearchQuery, setArtistSearchQuery] = useState<string>("");
+    const navigate = useNavigate()
     // console.log("persona DATA :", data)
     // console.log("SPOTIFY CONNECTED : ", authenticated)
 
@@ -107,7 +112,7 @@ export default function HomePage() {
     }
 
     if (status === "unauthenticated") {
-        window.location.href = "/";
+        navigate("/")
         return null;
     }
 
@@ -124,18 +129,18 @@ export default function HomePage() {
         <>
             <div className={styles.headerGroup}>
                 <div className={styles.connectionGroup}>
-                    <FaSpotify size={"1.5rem"} color="#1ED760" />
+                    <FaSpotify className={styles.spotifyIcon} color="#1ED760" />
                     <span className={styles.spotifyConnected}>Spotify Connected</span>
                 </div>
-                <div className={styles.avatarGroup}>
+                <a href={data.user.external_url} target="_blank" className={styles.avatarGroup}>
                     <Avatar className={styles.avatar}>
                         <AvatarImage src={data.user.profile_image} />
                         <AvatarFallback className={styles.avatarFallback}><User size={"2rem"} /></AvatarFallback>
                     </Avatar>
-                    <h2 className={clsx(styles.nameTitle, "font-onest")}>{data.user.display_name ? data.user.display_name : "Spotify User"}</h2>
+                    <p className={clsx(styles.nameTitle, "font-onest")}>{data.user.display_name ? data.user.display_name : "Spotify User"}</p>
 
-                </div>
-                <p className={clsx(styles.reflection, "font-kanit text-zinc-300")}>{persona?.ai_analysis?.reflection || "Every track tells a little bit of you."}</p>
+                </a>
+                <p className={clsx(styles.reflection, "font-onest text-[1.3rem] text-zinc-300")}>{persona?.ai_analysis?.reflection || "Welcome to MyTuneTale, we are eager to show you some interesing instights to you about your music journey...."}</p>
                 {persona?.ai_analysis && <div className={styles.emotionKeywords}>
                     {persona?.ai_analysis?.emotion_keywords.map((keyword, index) => {
                         return <Badge variant="outline" className={styles.emotionTag} key={index}>{keyword}</Badge>
@@ -147,7 +152,7 @@ export default function HomePage() {
             <div className={clsx(styles.mostBox)} >
                 <p className={clsx(styles.boxLabel, "font-kanit flex items-center text-zinc-300")}><Guitar className={clsx(styles.icon, "me-3")} /><span>Your Most Listened Song for an year</span></p>
                 <div className="mt-[1rem] p-3 bg-emerald-800 rounded-md">
-                    <SpotifyFrame name={data.top_tracks.long_term[0].name} trackId={data.top_tracks.long_term[0].id} height={152} />
+                    <LazySpotifyFrame name={data.top_tracks.long_term[0].name} trackId={data.top_tracks.long_term[0].id} height={152} />
                 </div>
             </div>}
 
@@ -177,9 +182,9 @@ export default function HomePage() {
                             </div>
                         </div>
                         <div className={styles.topTracksList}>
-                            {(topSongsToShow ? topSongsToShow.length : 0) > 0 ? topSongsToShow?.map((song) => (
-                                <SpotifyFrame key={song.id} name={song.name} position={song.position} trackId={song.id} />
-                            )) :
+                            {(topSongsToShow ? topSongsToShow.length : 0) > 0 ? topSongsToShow?.map((song) => {
+                                return <LazySpotifyFrame key={song.id} name={song.name} position={song.position} trackId={song.id}  />
+                            }) :
                                 <p className="font-dm text-zinc-300 w-[max-content] h-[max-content] px-10 py-4 rounded-md bg-zinc-800">No song found !</p>
                             }
                         </div>
@@ -208,7 +213,8 @@ export default function HomePage() {
 
             {data.saved_tracks && data.playlists && <AdditionsChart playlists={persona?.playlists}/>}
 
-            {/* <Story /> */}
+            <Story />
+
         </>
     )
 }
