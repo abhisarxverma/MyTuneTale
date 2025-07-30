@@ -3,11 +3,9 @@ import "react-day-picker/style.css";
 import styles from "./AllTime.module.css";
 import clsx from "clsx";
 import { useState } from "react";
-import "./Calendar.css"
-import { useSpotify } from "@/providers/SpotifyProvider";
-import SpotifyFrame from "./SpotifyFrame";
+import "./Calendar.css";
 import { CalendarFold, Heart } from "lucide-react";
-import { type SpotifyAnalysis } from "@/lib/types.ts";
+import { type PlaylistCollection } from "@/lib/types.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LazySpotifyFrame from "./LazySpotifyFrame";
 
@@ -37,10 +35,10 @@ function areSameMonth(date1: Date, date2: Date) {
 
 }
 
-function getSongsAddedOnDay(data: SpotifyAnalysis, date: Date) {
+function getSongsAddedOnDay(data: PlaylistCollection, date: Date) {
     const result = [];
 
-    for (const playlist of data.playlists) {
+    for (const playlist of data) {
         const items = []
         const allTracks = playlist.tracks
         for (const track of allTracks) {
@@ -65,10 +63,10 @@ function getSongsAddedOnDay(data: SpotifyAnalysis, date: Date) {
     return result;
 }
 
-function getSongsAddedInMonth(data: SpotifyAnalysis, date: Date) {
+function getSongsAddedInMonth(data: PlaylistCollection, date: Date) {
     const result = [];
 
-    for (const playlist of data.playlists) {
+    for (const playlist of data) {
         const items = []
         const allTracks = playlist.tracks
         for (const track of allTracks) {
@@ -93,22 +91,24 @@ function getSongsAddedInMonth(data: SpotifyAnalysis, date: Date) {
     return result;
 }
 
-export default function AllTime() {
+export default function AllTime({ playlistsData }: { playlistsData: PlaylistCollection | null }) {
 
-    const { persona } = useSpotify()!;
+    
     const [date, setDate] = useState<Date>(new Date());
-
-
+    
+    
     const day = date.getDate();
     const month = date.toLocaleString('default', { month: 'long' });
     const year = date.getFullYear()
-
-    const dayResults = getSongsAddedOnDay(persona as SpotifyAnalysis, date as Date) || []
-    const monthResults = getSongsAddedInMonth(persona as SpotifyAnalysis, date as Date) || []
-
+    
+    const dayResults = getSongsAddedOnDay(playlistsData as PlaylistCollection, date as Date) || []
+    const monthResults = getSongsAddedInMonth(playlistsData as PlaylistCollection, date as Date) || []
+    
     console.log("DAYRESULTS :", dayResults)
     console.log("MONTHRESULSTS :", monthResults)
-
+    
+    if (!playlistsData) return null;
+    
     return (
         <div className={styles.allTimeWrapper}>
 
@@ -123,9 +123,9 @@ export default function AllTime() {
                     selected={date}
                     onSelect={setDate}
                     navLayout="around"
-                    footer={
-                        date ? `Selected: ${date.toLocaleDateString()}` : "Pick a day."
-                    }
+                    // footer={
+                    //     date ? `Selected: ${date.toLocaleDateString()}` : "Pick a day."
+                    // }
                     className={clsx(styles.calendar, "rdp-root bg-zinc-800 p-2 ")}
                 />
                 <div className={clsx(styles.result)}>
@@ -145,7 +145,7 @@ export default function AllTime() {
                                                     {playlist.playlistName}
                                                 </p>
                                                 <div className={clsx(styles.songsList, styles.daySongsList, "bg-zinc-900")}>{playlist.tracks.map((song) => (
-                                                    <LazySpotifyFrame name={song.name} trackId={song.id} key={song.id} height={80} theme={1} />
+                                                    <LazySpotifyFrame key={song.id} name={song.name} trackId={song.id} height={80} theme={1} />
                                                 ))}</div>
                                             </>
                                         )
@@ -168,7 +168,7 @@ export default function AllTime() {
                                                 {playlist.playlistName}
                                             </p>
                                             <div className={clsx(styles.songsList, "bg-zinc-900")}>{playlist.tracks.map((song) => (
-                                                <LazySpotifyFrame name={song.name} trackId={song.id} key={song.id} height={80} theme={1} />
+                                                <LazySpotifyFrame key={song.id} name={song.name} trackId={song.id} height={80} theme={1} />
                                             ))}</div>
                                         </>
                                     )

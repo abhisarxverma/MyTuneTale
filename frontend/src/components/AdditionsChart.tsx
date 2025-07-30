@@ -12,7 +12,6 @@ import {
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -49,7 +48,8 @@ function generateMonthlyChartData(playlists: PlaylistCollection) {
     }))
 }
 
-export function AdditionsChart({ playlists }: { playlists: PlaylistCollection | undefined }) {
+export function AdditionsChart({ playlists }: { playlists: PlaylistCollection | null }) {
+    
     const chartData = useMemo(() => generateMonthlyChartData(playlists || []), [playlists])
 
     return (

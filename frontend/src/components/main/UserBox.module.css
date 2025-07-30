@@ -1,0 +1,82 @@
+.headerGroup {
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.fadeLogo {
+    position: absolute;
+    z-index: 100;
+    right: 0;
+    top: 0;
+    width: 15rem;
+    aspect-ratio: 1;
+    object-fit: cover;
+    opacity: .1;
+    margin-inline-end: clamp(.5rem, 1vw, 5rem);
+    margin-block-start: clamp(.5rem, 1vw, 5rem);
+}
+
+.icon {
+    color: #1ED760;
+    font-size: 1.5rem;
+}
+
+.connectionGroup {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: #1ED760;
+    font-weight: 600;
+}
+
+.spotifyIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.spotifyConnected {
+    display: flex;
+    font-size: 1.5rem;
+}
+
+.avatarGroup {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatarGroup:hover .nameTitle {
+    text-decoration: underline;
+}
+
+.avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 100%;
+}
+
+.avatarFallback {
+    color: white;
+    font-weight: 600;
+    background-color: #13c552;
+}
+
+.nameTitle {
+    font-size: 4rem;
+    font-weight: 500;
+    font-family: "DM Sans", "sans-serif";
+}
+
+.emotionKeywords {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.emotionTag {
+    background-color: #1ED760;
+    color: black;
+}

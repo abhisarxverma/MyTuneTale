@@ -9,13 +9,13 @@ from starlette.middleware.sessions import SessionMiddleware
 from spotipy import Spotify, SpotifyException
 from spotipy.oauth2 import SpotifyOAuth
 from decouple import config
-from base import createStory
 from supabase import create_client, Client
 from middleware import RateLimitMiddleware
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 
-from utils import fetch_all_saved_tracks, fetch_all_top_tracks, fetch_all_top_artists, fetch_all_playlists, fetch_user_details, send_email, check_limit, is_clean_text
+from utils import fetch_all_saved_tracks, fetch_all_top_tracks, fetch_all_top_artists, fetch_all_playlists, fetch_user_details, send_email, check_limit, is_clean_text, create_playlist_with_image
+from base import createStory
 from wordcloud_image import make_wordcloud
 
 import asyncio
@@ -27,7 +27,7 @@ import json, os
 CLIENT_ID = config("SF_CLIENT_ID")
 CLIENT_SECRET = config("SF_CLIENT_SECRET")
 REDIRECT_URI = config("REDIRECT_URI")
-SCOPE = "user-library-read user-top-read playlist-read-private playlist-read-collaborative user-read-recently-played user-read-email user-read-private"
+SCOPE = "user-library-read user-top-read playlist-read-private playlist-read-collaborative user-read-recently-played user-read-email user-read-private playlist-modify-public playlist-modify-private ugc-image-upload"
 TOKEN_SESSION_KEY = "spotify_token_info"
 
 SUPABASE_PROJECT_URL = config("SUPABASE_PROJECT_URL")
@@ -111,11 +111,12 @@ async def login(request: Request):
         sp = Spotify(auth=access_token)
         user = sp.current_user()
         username = user["display_name"]
-        userid = user["id"]
-        debugPrint(f"USER REQUESTED TO CONNECT SPOTIFY : {username}, ID : {userid}")
+        user_id = user["id"]
+        debugPrint(f"USER REQUESTED TO CONNECT SPOTIFY : {username}, ID : {user_id}")
         debugPrint("Token is validated, redirecting to callback")
         encoded_data = quote(json.dumps((new_token_info)))
-        redirect_url = f"{callback_redirect}?token_info={encoded_data}"
+        encoded_user_id = quote(user_id)
+        redirect_url = f"{callback_redirect}?token_info={encoded_data}&user_id={encoded_user_id}"
         return RedirectResponse(url=redirect_url)
 
     auth_url = get_spotify_oauth().get_authorize_url()
@@ -130,9 +131,15 @@ def callback(request: Request):
         return RedirectResponse(url=callback_redirect)
 
     token_info = get_spotify_oauth().get_access_token(code, as_dict=True)
+    sp = Spotify(auth=token_info.get("access_token"))
+    user = fetch_user_details(sp)
+    user_id = user.get("id")
+    username = user.get("display_name")
+    debugPrint(f"Authenticating user : {username}")
+    encoded_user_id = quote(user_id)
     print("TOKEN INFO RECEIVED FROM SPOTIFY :", token_info)
     encoded_info = quote(json.dumps((token_info)))
-    redirect_url = f"{callback_redirect}?token_info={encoded_info}"
+    redirect_url = f"{callback_redirect}?token_info={encoded_info}&user_id={encoded_user_id}"
     return RedirectResponse(url=redirect_url)
 
 @app.post("/api/me/")
@@ -232,12 +239,12 @@ async def user_profile(request: Request):
 
     if user_id:
         try:
-            existing_data = give_from_supabase(user_id, "data")
-            if existing_data and existing_data.get("user", None):
+            existing_data = give_from_supabase(user_id, "user")
+            if existing_data:
                 return JSONResponse({
                     "success": True,
                     "message": "User data returned from Supabase",
-                    "data": existing_data.get("user"),
+                    "data": existing_data,
                 })
         except Exception as e:
             pass
@@ -250,12 +257,15 @@ async def user_profile(request: Request):
 
     try:
         user_profile = fetch_user_details(sp)
+        
+        res = save_in_supabase(user_id, "user", user_profile)
+            
         return JSONResponse(status_code=200, content={
-            "success": False,
-            "message" : "Successfully fetched user data",
+            "success": True,
+            "message" : "Successfully fetched user data and updated supabase",
             "data" : user_profile
         })
-    except SpotifyException as e:
+    except Exception as e:
         print("Failed to fetch the user's user id :", str(e))
         return JSONResponse(status_code=401, content={
             "success": False,
@@ -284,12 +294,12 @@ async def user_top_tracks(request: Request):
 
     if user_id:
         try:
-            existing_data = give_from_supabase(user_id, "data")
-            if existing_data and existing_data.get("top_tracks", None):
+            existing_data = give_from_supabase(user_id, "top_tracks")
+            if existing_data:
                 return JSONResponse({
                     "success": True,
-                    "message": "User data returned from Supabase",
-                    "data": existing_data.get("user"),
+                    "message": "top tracks data returned from Supabase",
+                    "data": existing_data,
                 })
         except Exception as e:
             pass
@@ -303,9 +313,12 @@ async def user_top_tracks(request: Request):
 
     try:
         top_tracks = fetch_all_top_tracks(sp)
+
+        res = save_in_supabase(user_id, "top_tracks", top_tracks)
+
         return JSONResponse(status_code=200, content={
-            "success": False,
-            "message" : "Successfully fetched user top tracks data",
+            "success": True,
+            "message" : "Successfully fetched user top tracks data and updated supabase",
             "data" : top_tracks
         })
     except SpotifyException as e:
@@ -337,12 +350,12 @@ async def user_top_artists(request: Request):
 
     if user_id:
         try:
-            existing_data = give_from_supabase(user_id, "data")
-            if existing_data and existing_data.get("top_artists", None):
+            existing_data = give_from_supabase(user_id, "top_artists")
+            if existing_data:
                 return JSONResponse({
                     "success": True,
-                    "message": "User data returned from Supabase",
-                    "data": existing_data.get("top_artsts"),
+                    "message": "top artists data returned from Supabase",
+                    "data": existing_data,
                 })
         except Exception as e:
             pass
@@ -356,9 +369,12 @@ async def user_top_artists(request: Request):
 
     try:
         top_artists = fetch_all_top_artists(sp)
+
+        res = save_in_supabase(user_id, "top_artists", top_artists)
+
         return JSONResponse(status_code=200, content={
-            "success": False,
-            "message" : "Successfully fetched user top artists data",
+            "success": True,
+            "message" : "Successfully fetched user top artists data and upadated supabase",
             "data" : top_artists
         })
     except SpotifyException as e:
@@ -390,12 +406,12 @@ async def user_playlists(request: Request):
 
     if user_id:
         try:
-            existing_data = give_from_supabase(user_id, "data")
-            if existing_data and existing_data.get("playlists", None):
+            existing_data = give_from_supabase(user_id, "playlists")
+            if existing_data:
                 return JSONResponse({
                     "success": True,
-                    "message": "User data returned from Supabase",
-                    "data": existing_data.get("playlists"),
+                    "message": "Playlists data returned from Supabase",
+                    "data": existing_data,
                 })
         except Exception as e:
             pass
@@ -410,10 +426,69 @@ async def user_playlists(request: Request):
         playlists = fetch_all_playlists(sp)
         saved_tracks = fetch_all_saved_tracks(sp)
         playlists.append({"tracks": saved_tracks, "name": "Saved Tracks"})
+
+        res = save_in_supabase(user_id, "playlists", playlists)
+        res2 = save_in_supabase(user_id, "saved_tracks", saved_tracks)
+
         return JSONResponse(status_code=200, content={
-            "success": False,
+            "success": True,
             "message" : "Successfully fetched user playlists data",
-            "data" : {"playlists": playlists, "saved_tracks": saved_tracks}
+            "data" : playlists
+        })
+    except SpotifyException as e:
+        print("Failed to fetch the user's user id :", str(e))
+        return JSONResponse(status_code=401, content={
+            "success": False,
+            "message": "Error occured :"+str(e),
+            "data": None
+        })
+    
+@app.post("/api/saved_tracks/")
+async def user_playlists(request: Request):
+
+    body = await request.json()
+
+    print("RAW BODY IN USER :", body)
+
+    token_info = body.get("token_info", None)
+
+    if not token_info:
+        print("Missing access token in header")
+        return JSONResponse(content={
+            "success" : False,
+            "message" : "Missing access token in header",
+            "data" : None
+        })
+
+    user_id = body.get("user_id", None)
+
+    if user_id:
+        try:
+            existing_data = give_from_supabase(user_id, "saved_tracks")
+            if existing_data :
+                return JSONResponse({
+                    "success": True,
+                    "message": "Saved Tracks data returned from Supabase",
+                    "data": existing_data,
+                })
+        except Exception as e:
+            pass
+    
+    access_token = token_info.get("access_token", None)
+
+    print("Fetching fresh Saed tracks data from Spotify")
+
+    sp = Spotify(auth=access_token)
+
+    try:
+        saved_tracks = fetch_all_saved_tracks(sp)
+
+        res = save_in_supabase(user_id, "saved_tracks", saved_tracks)
+
+        return JSONResponse(status_code=200, content={
+            "success": True,
+            "message" : "Successfully fetched saved tracks.",
+            "data" : saved_tracks
         })
     except SpotifyException as e:
         print("Failed to fetch the user's user id :", str(e))
@@ -427,9 +502,8 @@ async def user_playlists(request: Request):
 async def ai_analysis(request : Request):
 
     body = await request.json()
-    data = body.get("data", {})
-    print("Received data for AI analysis:", data)
-    id = data.get("user", {}).get("id")
+    print("Received data for AI analysis:", body)
+    id = body.get("user_id", "")
     if not id:
         return JSONResponse(status_code=400, content={"success": False, "message": "User ID is required", "data" : None})
     
@@ -450,17 +524,25 @@ async def ai_analysis(request : Request):
             print("Rate limit exceeded for AI analysis")
             return JSONResponse(status_code=429, content={"success": False, "message": "Rate limit exceeded. Try again later.", "data": None })
         
+        response = supabase.table("users").select("user", "top_tracks", "top_artists", "playlists", "saved_tracks").eq("id", id).execute()
+
+        data = response.data
+
+        if not data:
+            return JSONResponse(status_code=404, content={
+                "success" : False,
+                "message" : "Data not found in supabase",
+                "data" : None
+            })
+
         print("Trying to create the ai analysis")
         story = createStory(data)
         if not story:
             return JSONResponse(status_code=500, content={"success": False, "message": "Failed to generate AI analysis", "data" : None})
         else :
             print("AI analysis generated successfully")
-            try:
-                supabase.table("users").update({"ai_analysis": story}).eq("id", id).execute()
-                print("AI analysis saved to the supabase")
-            except Exception as e:
-                print(f"Failed to save AI analysis to Supabase: {str(e)}")
+            
+            res = save_in_supabase(id, "ai_analysis", story)
 
             return JSONResponse(status_code=200, content={
                 "success": True,
@@ -508,13 +590,60 @@ async def send_review(review: ReviewPayload):
     except Exception as e:
         return JSONResponse(status_code=500, content={"success": False, "message": f"Failed to submit review: {str(e)}"})
 
-@app.get("/api/setsession")
-def set_session(request: Request):
-    print("Incoming session")
-    print(request.session)
-    request.session.clear()
-    return JSONResponse(status_code=200, content={"success": True, "message": "Session set successfully"})
+@app.post("/api/create_playlist/")
+async def create_playlist(request: Request):
     
+    body = await request.json()
+
+    access_token = body.get("access_token", None)
+    term = body.get("term", "long_term")
+    name = body.get("name", None)
+    description = body.get("description", None)
+
+    if not access_token: 
+        return JSONResponse(status_code=400, content={
+            "success" : False,
+            "message" : "Data is not complete to create playlist",
+            "cause" : "missing",
+            "data" : None
+        })
+    
+    try:
+        sp = Spotify(auth=access_token)
+        user_id = sp.current_user()["id"]
+    except Exception as e:
+        print(f"Spotify section error in create playlist : {e}")
+        return JSONResponse(status_code=301, content={
+            "success" : False,
+            "message" : "Access token is invalid, please authorize again",
+            "cause" : "token",
+            "data" : None
+        })
+    
+    try:
+        response = supabase.table("users").select("top_tracks").eq("id", user_id).single().execute()
+        top_tracks = response.data.get("top_tracks")
+
+        songs = [track.get("uri") for track in top_tracks.get(term)]
+
+        playlist_url = create_playlist_with_image(sp, user_id, songs, playlist_name=name, description=description)
+
+        print("Playlist created : ", playlist_url)
+
+        return JSONResponse(status_code=200, content={
+            "success" : True,
+            "message" : "New playlist created successfully",
+            "data" : playlist_url
+        })
+    
+    except Exception as e:
+        print(f"Error occured in creating Playlist :{e}")
+        return JSONResponse(status_code=500, content={
+            "success" : False,
+            "message" : f"Error occured in creating playlist {e}",
+            "cause" : "server",
+            "data" : None
+        })
 
 if ENV == "PROD":
     app.mount("/static", StaticFiles(directory="static", html=True), name="static")
@@ -534,7 +663,7 @@ def give_from_supabase(user_id, column_name):
             print(f"User {user_id} data last updated at:", updated_at)
             if updated_at and datetime.now() - datetime.fromisoformat(updated_at).replace(tzinfo=None) < timedelta(days=5): 
                 result = supabase.table("users").select(column_name).eq("id", user_id).single().execute()
-                # print("Result from the supabase :", result)
+                # print(f"Result from the supabase for {column_name} :", result)
                 if result.data and result.data.get(column_name):
                     print("Returning existing spotify data from the supabase")
                     return result.data[column_name]
@@ -544,3 +673,14 @@ def give_from_supabase(user_id, column_name):
     except Exception as e:
         print("Error occured in checking in supabase function :", e)
         return None
+    
+
+def save_in_supabase(user_id, column_name, data):
+    try:
+        response = supabase.table("users").upsert({"id": user_id, column_name: data}).execute()
+        print(f"Saved data in {column_name} in supabase")
+        return True
+
+    except Exception as e:
+        print(f"Error occured in saving in supabase in {column_name}: {e}")
+        return False

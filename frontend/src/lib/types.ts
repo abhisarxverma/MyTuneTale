@@ -69,11 +69,11 @@ export interface TopTracks {
 }
 
 export interface SpotifyAnalysis {
-    user: SpotifyUser;
-    saved_tracks: SavedTrack[];
-    top_artists: TopArtists;
-    top_tracks: TopTracks;
-    playlists: PlaylistCollection;
+    user: SpotifyUser | undefined;
+    saved_tracks: SavedTrack[] | undefined;
+    top_artists: TopArtists | undefined;
+    top_tracks: TopTracks | undefined;
+    playlists: PlaylistCollection | undefined;
     ai_analysis: AiAnalysis | undefined;
 }
 

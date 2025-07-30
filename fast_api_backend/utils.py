@@ -4,6 +4,8 @@ from fastapi import Request
 from collections import defaultdict
 import time
 import re
+from PIL import Image
+import requests, io, base64
 
 email = config("EMAIL")
 password = config("PASSWORD")
@@ -103,7 +105,8 @@ def fetch_all_saved_tracks(sp):
                 "artist": item['track']['artists'][0]['name'],
                 "album": item['track']['album']['name'],
                 "image": item['track']['album']['images'][0]['url'] if item['track']['album']['images'] else None,
-                "added_at": item['added_at']
+                "added_at": item['added_at'],
+                "uri" : item.get("uri")
             }
             for item in items
         ])
@@ -129,7 +132,8 @@ def fetch_all_top_tracks(sp):
                         "id": item['id'],
                         "artist": item['artists'][0]['name'],
                         "album": item['album']['name'],
-                        "image": item['album']['images'][0]['url'] if item['album']['images'] else None
+                        "image": item['album']['images'][0]['url'] if item['album']['images'] else None,
+                        "uri" : item.get("uri")
                     }
                     for item in items
                 ])
@@ -215,7 +219,7 @@ def fetch_all_playlists(sp):
                     "tracks": []
                 }
 
-                if playlist_data["owner"] != username: break
+                if playlist_data["owner"] != username: continue
 
                 track_offset = 0
                 track_limit = 100  
@@ -242,7 +246,8 @@ def fetch_all_playlists(sp):
                             "artist": track["artists"][0]["name"],
                             "album": track["album"]["name"],
                             "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
-                            "added_at": item.get("added_at")  
+                            "added_at": item.get("added_at"),
+                            "uri" : track.get("uri")
                         })
 
                     track_offset += track_limit
@@ -337,4 +342,32 @@ def give_prompt(data):
     {data}
     """
 
-    return prompt
+    return 
+
+def create_playlist_with_image(
+    sp,
+    user_id: str,
+    track_uris: list,
+    playlist_name: str = "My Music Persona",
+    description: str = "These are my most listened songs, that are essentially the summary of my life till now.",
+    image_path: str = "images/boy.jpg"
+):
+    playlist = sp.user_playlist_create(user=user_id, name=playlist_name, public=True, description=description)
+    playlist_id = playlist["id"]
+    print(f"Created playlist: {playlist_name} Id:  {playlist_id}")
+
+    sp.playlist_add_items(playlist_id=playlist_id, items=track_uris)
+    print(f"🎶 Added {len(track_uris)} tracks")
+
+    # try:
+    #     with open(image_path, "rb") as f:
+    #         image = Image.open(f).convert("RGB")
+    #         buffer = io.BytesIO()
+    #         image.save(buffer, format="JPEG")
+    #         encoded_image = base64.b64encode(buffer.getvalue()).decode("utf-8")
+    #         sp.playlist_upload_cover_image(playlist_id, encoded_image)
+    #         print("image uploaded as playlist cover")
+    # except Exception as e:
+    #     print("Error in putting playlist cover image:", e)
+
+    return playlist["external_urls"]["spotify"]

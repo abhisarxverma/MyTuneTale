@@ -1,17 +1,15 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "@/lib/api.ts";
 import { Loader2 } from "lucide-react";
-import { type SpotifyAnalysis, type SpotifyUser } from "@/lib/types.ts";
+import { type SpotifyAnalysis } from "@/lib/types.ts";
 
 type SpotifyContextType = {
-  status: "idle" | "loading" | "authenticated" | "unauthenticated";
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   connectSpotify: () => void;
   persona: SpotifyAnalysis | null;
-  setPersona: React.Dispatch<React.SetStateAction<SpotifyAnalysis | null>>;
+  setPersona: React.Dispatch<React.SetStateAction<SpotifyAnalysis>>;
 };
-
-type SpotifyStatus = "idle" | "loading" | "authenticated" | "unauthenticated";
 
 const SpotifyContext = createContext<SpotifyContextType | null>(null);
 export function useSpotify() {
@@ -19,98 +17,25 @@ export function useSpotify() {
 }
 
 export function SpotifyProvider({ children }: { children: ReactNode }) {
-  const [status, setStatus] = useState<SpotifyStatus>("idle");
-  const [persona, setPersona] = useState<SpotifyAnalysis | null>(null);
-  const navigate = useNavigate();
-
-  function fetchData() {
-    
-    const token_info = localStorage.getItem("token_info");
-    if (!token_info) {
-      setStatus("unauthenticated");
-      return;
-    }
-
-    setStatus("loading");
-
-    api
-      .post("/me/", {
-        token_info: JSON.parse(token_info),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.success) {
-          console.log("API/ME fetch successful !", data)
-          setPersona(data.data);
-          setStatus("authenticated");
-          setTimeout(() => navigate("/home"), 300)
-        } else {
-          console.log("API/ME fetch failed !", data)
-          setStatus("unauthenticated");
-        }
-      })
-      .catch((error) => {
-        console.log("Error in API/ME call :", error)
-        setStatus("unauthenticated")
-      });
-  }
-
-  function fetchUser() {
-    
-    const token_info = localStorage.getItem("token_info");
-    if (!token_info) {
-      setStatus("unauthenticated");
-      return;
-    }
-
-    const user_id = localStorage.getItem("user_id");
-    if (!user_id) {
-      setStatus("unauthenticated")
-      return;
-    }
-
-    setStatus("loading");
-
-    api
-      .post(`/user/`, {
-        token_info: JSON.parse(token_info),
-        user_id: JSON.parse(user_id),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.success) {
-          console.log(`API/USER fetch successful !`, data)
-          setPersona(prev => {
-            if (!prev) return null;
-            return {...prev, user: data.data}
-          });
-          setStatus("authenticated");
-          setTimeout(() => navigate("/home"), 300)
-        } else {
-          console.log("API/ME fetch failed !", data)
-          setStatus("unauthenticated");
-        }
-      })
-      .catch((error) => {
-        console.log("Error in API/ME call :", error)
-        setStatus("unauthenticated")
-      });
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [persona, setPersona] = useState<SpotifyAnalysis>({
+    user: undefined,
+    saved_tracks: undefined,
+    top_tracks: undefined,
+    playlists: undefined,
+    top_artists: undefined,
+    ai_analysis: undefined
+  });
+  const [ authenticated, setAuthenticated ] = useState<boolean>(false);
 
   const connectSpotify = async () => {
-    setStatus("loading");
     const token_info = localStorage.getItem("token_info");
     const encoded_token_info = encodeURIComponent(JSON.stringify(token_info));
     window.location.href = `/api/connect-spotify?token_info=${encoded_token_info}`;
   };
 
-
-  const value = {
-    status,
+  const value : SpotifyContextType = {
+    authenticated,
+    setAuthenticated,
     connectSpotify,
     persona,
     setPersona,
@@ -124,9 +49,8 @@ export function SpotifyProvider({ children }: { children: ReactNode }) {
 }
 
 export function SpotifyCallback() {
-  const { setPersona } = useSpotify()!;
   const navigate = useNavigate();
-
+  
   useEffect(() => {
 
     const searchParams = new URLSearchParams(window.location.search);
@@ -139,6 +63,9 @@ export function SpotifyCallback() {
     const decoded_token_info = decodeURIComponent(searchParams.get("token_info")!)
     console.log("DECODED TOKEN INFO :", decoded_token_info)
 
+    const userId = decodeURIComponent(searchParams.get("user_id")!)
+    console.log("USER ID RECEIVED :", userId)
+
     const token_info = JSON.parse(decoded_token_info)
     console.log("Token info given to callback:", token_info);
 
@@ -149,30 +76,11 @@ export function SpotifyCallback() {
 
     localStorage.setItem("token_info", JSON.stringify(token_info));
 
-    api
-      .post("/me/", {
-        token_info: token_info,
-      })
-      .then((res) => {
-        const data = res.data;
-        console.log("Spotify /me response:", data);
+    localStorage.setItem("user_id", JSON.stringify(userId));
 
-        if (data.success) {
-          console.log("Persona data fetched successfully, redirecting...", data)
-          setPersona(data.data);
-          setTimeout(() => navigate("/home"), 300);
-        } else {
-          console.log("Missing persona data from api/me response, redirecting...", data);
-          setPersona(null);
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.log("Error during persona fetch:", error);
-        setPersona(null);
-        navigate("/");
-      });
-  }, [setPersona, navigate]);
+    navigate("/home")
+
+  }, []);
 
 
   return (

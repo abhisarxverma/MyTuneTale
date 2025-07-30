@@ -43,7 +43,7 @@ const LazySpotifyFrame: React.FC<LazySpotifyFrameProps> = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
+        if (entry.isIntersecting) setTimeout(() => setIsVisible(true), 300);
       },
       { threshold: 0.25 }
     );

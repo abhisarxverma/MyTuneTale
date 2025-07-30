@@ -9,25 +9,29 @@ import { HappinessStory } from "./HappinessStory";
 import { DeepLyricsStory } from "./DeepLyricsChart";
 import api from "@/lib/api.ts";
 import type { SpotifyAnalysis } from "@/lib/types";
+import { useNavigate } from "react-router-dom";
 
 export default function Story() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { persona, setPersona } = useSpotify()!;
     const [currentChart, setCurrentChart] = useState("persona");
+    const navigate = useNavigate();
 
     async function fetchAnalysis() {
-        if (!persona || persona.ai_analysis) {
-            setLoading(false);
-            return;
+        
+        const user_id = localStorage.getItem("user_id")
+
+        if (!user_id) {
+            console.log("USER ID NOT FUOND IN THE LOCALSTORAGE IN THE STORY")
+            navigate("/")
         }
 
         try {
             setLoading(true);
             setError(null);
 
-            console.log("Fetching analysis for persona:", persona);
-            const res = await api.post(`/aianalysis`, { data: persona });
+            const res = await api.post(`/aianalysis`, { user_id: user_id });
             console.log("ANALYSIS RESPONSE:", res);
 
             if (!res.data || !res.data.data) {
@@ -63,7 +67,7 @@ export default function Story() {
 
     useEffect(() => {
         fetchAnalysis();
-    }, [persona]);
+    }, []);
 
     console.log("PERSONA AI ANALYSIS:", persona?.ai_analysis);
 
