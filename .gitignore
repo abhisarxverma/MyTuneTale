@@ -16,6 +16,7 @@ settings.json
 ../frontend/.env.development
 ../frontend/package-lock.json
 ../frontend/package.json
+../frontend/tsconfig.json
 package-lock.json
 package.json
 __pycache__/
