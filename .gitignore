@@ -14,11 +14,6 @@ settings.json
 ../frontend/.env.test.local
 ../frontend/.env
 ../frontend/.env.development
-../frontend/package-lock.json
-../frontend/package.json
-../frontend/tsconfig.json
-package-lock.json
-package.json
 __pycache__/
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,flask
