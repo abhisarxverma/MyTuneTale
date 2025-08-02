@@ -1,8 +1,6 @@
-# railway.toml
-
 [build]
 builder = "nixpacks"
-rootDirectory = "fast_api_backend
+rootDirectory = "fast_api_backend"
 
 [deploy]
 startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
