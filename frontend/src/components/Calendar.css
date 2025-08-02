@@ -1,4 +1,44 @@
-.rdp-root {
-    --rdp-day-height: 1rem;
-    --rdp-day-width: 1rem;
+/* Add this to your Calendar.css file */
+
+.react-calendar-heatmap .react-calendar-heatmap-day {
+  position: relative;
+  cursor: pointer;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-day:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-day:hover::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Only show tooltip if data-tip exists and is not empty */
+.react-calendar-heatmap .react-calendar-heatmap-day:not([data-tip])::after,
+.react-calendar-heatmap .react-calendar-heatmap-day:not([data-tip])::before,
+.react-calendar-heatmap .react-calendar-heatmap-day[data-tip=""]::after,
+.react-calendar-heatmap .react-calendar-heatmap-day[data-tip=""]::before {
+  display: none;
 }

@@ -2,6 +2,7 @@ import api from "@/lib/api";
 import { type SpotifyUser, type PlaylistCollection, type TopArtists, type TopTracks, type SavedTrack } from "@/lib/types";
 import { useSpotify } from "@/providers/SpotifyProvider";
 import { useCallback, useEffect, useState } from "react";
+import { getCachedData, setCachedData } from "@/lib/cacheDB";
 
 type EndpointDataMap = {
   user: SpotifyUser;
@@ -14,36 +15,44 @@ type EndpointDataMap = {
 type EndPointKey = keyof EndpointDataMap;
 
 const endpointMap: Record<string, string> = {
-    user: '/user/',
-    playlists: '/playlists/',
-    top_tracks: '/top_tracks/',
-    top_artists: '/top_artists/',
-    saved_tracks: '/saved_tracks/'
+  user: '/user/',
+  playlists: '/playlists/',
+  top_tracks: '/top_tracks/',
+  top_artists: '/top_artists/',
+  saved_tracks: '/saved_tracks/'
 };
 
 const fetchData = async <K extends EndPointKey>(key: K): Promise<EndpointDataMap[K]> => {
 
-    const token_info = localStorage.getItem("token_info");
-    if (!token_info) {
-        throw new Error("Token info not found in localstorage.")
-    }
+  const cached = await getCachedData(key);
+  if (cached) {
+    console.log(`Using cached data for ${key} : ${cached}`);
+    return cached;
+  }
 
-    const user_id = localStorage.getItem("user_id");
-    if (!user_id) {
-        throw new Error("User Id not found in localstorage")
-    };
+  const token_info = localStorage.getItem("token_info");
+  if (!token_info) {
+    throw new Error("Token info not found in localstorage.")
+  }
 
-    const endpoint = endpointMap[key];
-    if (!endpoint) throw new Error(`Key is unknown: ${key}`);
+  const user_id = localStorage.getItem("user_id");
+  if (!user_id) {
+    throw new Error("User Id not found in localstorage")
+  };
 
-    const res = await api.post(endpoint, {
-        token_info: JSON.parse(token_info),
-        user_id : JSON.parse(user_id)
-    });
-    const data = res.data;
-    console.log(`DATA RESPONSE FOR ${key} : `, data)
-    if (!data.success) throw new Error(`Error occured in fetching ${key} data:: ${data?.message}`);
-    return data?.data;
+  const endpoint = endpointMap[key];
+  if (!endpoint) throw new Error(`Key is unknown: ${key}`);
+
+  const res = await api.post(endpoint, {
+    token_info: JSON.parse(token_info),
+    user_id: user_id
+  });
+  const data = res.data;
+  console.log(`DATA RESPONSE FOR ${key} : `, data)
+  if (!data.success) throw new Error(`Error occured in fetching ${key} data:: ${data?.message}`);
+
+  await setCachedData(key, data.data); 
+  return data?.data;
 }
 
 const useFetchData = <K extends EndPointKey>(key: K) => {
@@ -68,8 +77,10 @@ const useFetchData = <K extends EndPointKey>(key: K) => {
         setAuthenticated(true);
       } catch (err) {
         setError((err as Error).message);
+        console.log(`Error fetching ${key} : `, err)
         setStatus('error');
         setAuthenticated(false);
+        setPersona(prev => ({ ...prev, [key]: null }));
       }
     };
     load();

@@ -28,8 +28,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function DeepLyricsStory({ data }: { data: Chapter[] }) {
-  const chartData = data.map((chapter) => ({
+export function DeepLyricsStory({ data }: { data: Chapter[] | undefined }) {
+  const chartData = data?.map((chapter) => ({
     month: new Date(chapter.month + "-01").toLocaleString("default", { month: "short", year: "numeric" }),
     lyrics: Number(chapter.deep_lyrics_score),
   }))

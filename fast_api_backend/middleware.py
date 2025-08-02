@@ -13,6 +13,13 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
         self.rate_limit_paths = [
             '/api/review',
+            '/api/create_playlist',
+            '/api/user',
+            '/api/playlists',
+            '/api/top_tracks',
+            '/api/top_artists',
+            '/api/saved_tracks',
+            
         ]
 
     async def dispatch(self, request: Request, call_next: Callable):
@@ -39,7 +46,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         if len(recent_requests) >= 3:
             return JSONResponse(
                 status_code=429,
-                content={"status": "failed", "message": "Too many requests. Try again later."}
+                content={"success": False, "message": "Too many requests. Try again later.", "data" : None}
             )
 
         recent_requests.append(now)

@@ -1,12 +1,12 @@
 .createPlaylistButton  {
     height: 100%;
     padding: 1rem;
-    border: 1px solid #1ED760 ;
     border-radius: 10px;
     display: flex;
     align-items: center;
     gap: .5rem;
-    transition: color .5s ease;
+    transition: all .5s ease;
+    border: .5px solid gray;
 }
 
 .createPlaylistIcon {
@@ -15,6 +15,7 @@
 
 .createPlaylistButton:hover,
 .createPlaylistButton:focus {
+    border: 1px solid #1ED760 ;
     color: #0eb549;
 }
 
@@ -24,9 +25,8 @@
 
 .popoverContent {
     width: 300px;
-    min-height: 200px;
     background-color: black;
-    border: 1px solid white;
+    border: none;
 }
 
 .formWrapper {
@@ -44,23 +44,29 @@
     border-radius: 10px;
 }
 
+.formWrapper > label {
+    color: lightgray;
+    font-size: 1rem;
+}
+
 .input, .textarea {
     border: .5px solid #1ED760;
     height: 30px;
     font-family: "Onest", "sans-serif";
     color: white;
     border-radius: 10px;
+    font-size: 1rem;
 }
 
 .input {
-    text-indent: 1rem;
+    text-indent: .8rem;
     min-height: 40px;
 }
 
 .textarea {
-    flex: 1;
     resize: none;
-    padding: 1rem;
+    padding: .8rem;
+    min-height: 70px;
 }
 
 .textarea:focus {
@@ -69,14 +75,15 @@
 
 .createButton {
     background-color: #1ED760;
-    color: white;
+    color: black;
     font-family: "Onest", "sans-serif";
     min-height: 35px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .createButton:hover {

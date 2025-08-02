@@ -1,13 +1,13 @@
 import useFetchData from "@/hooks/UseFetchData";
 import type { Song, SpotifyArtist } from "@/lib/types";
-import { Activity, Guitar, Loader, MicVocal, Music4, Search } from "lucide-react";
+import { Activity, Guitar, Loader, MicVocal, Music4 } from "lucide-react";
 import { useEffect, useState } from "react";
-import styles from "./TopBox.module.css";
+import styles from "./PaginatedTopBox.module.css";
 import clsx from "clsx";
 import LazySpotifyFrame from "../LazySpotifyFrame";
 import LazyArtistFrame from "../LazyArtistFrame";
 import CreatePlaylist from "../CreatePlaylist";
-
+import Paginator from "../Paginator";
 
 interface currentTimeline {
     songs_list: Song[] | undefined;
@@ -17,17 +17,15 @@ interface currentTimeline {
     term: string;
 }
 
-export default function TopBox() {
+export default function PaginatedTopBox() {
 
     const { data: topTracksData, status: topTracksStatus, error: topTracksError, refetch: topTracksRefetch } = useFetchData("top_tracks")
     const { data: topArtistsData, status: topArtistsStatus, error: topArtistsError, refetch: topArtistsRefetch } = useFetchData("top_artists")
     const [currentTimeline, setCurrentTimeline] = useState<currentTimeline | null>(null)
-    const [songsList, setSongsList] = useState<Song[] | undefined>(undefined);
-    const [artistsList, setArtistsList] = useState<SpotifyArtist[] | undefined>(undefined);
-    const [songSearchQuery, setSongSearchQuery] = useState<string>("");
-    const [artistSearchQuery, setArtistSearchQuery] = useState<string>("");
-    // console.log("persona DATA :", data)
-    // console.log("SPOTIFY CONNECTED : ", authenticated)
+    const [topSongsPageSize] = useState<number>(8);
+    const [topArtistsPageSize] = useState(4);
+    const [currentSongPage, setCurrentSongPage] = useState(1);
+    const [currentArtistPage, setCurrentArtistPage] = useState(1);
 
     useEffect(() => {
         setCurrentTimeline({
@@ -37,7 +35,7 @@ export default function TopBox() {
             title: "30 Days",
             tagline: "Fresh drops and recent obsessions—here’s what ruled your month in music."
         } as currentTimeline)
-    }, [topTracksData, topArtistsData, setCurrentTimeline]);
+    }, [topTracksData, topArtistsData]);
 
     function positionify(array: Song[] | SpotifyArtist[] | undefined) {
         if (!array) return undefined;
@@ -49,18 +47,24 @@ export default function TopBox() {
         })
     }
 
-    
+    const topSongs = currentTimeline?.songs_list || [];
+    const topSongsPageCount = Math.ceil(topSongs.length / topSongsPageSize);
+    const paginatedTopSongs = topSongs.slice((currentSongPage - 1) * topSongsPageSize, currentSongPage * topSongsPageSize);
 
-    function songSearch(e: React.ChangeEvent<HTMLInputElement>) {
-        const query = e.target.value.trim().toLowerCase();
-        setSongSearchQuery(query);
-        setSongsList(currentTimeline?.songs_list?.filter(song => (song.name.toLowerCase().includes(query))));
-    }
+    const topArtists = currentTimeline?.top_artists || [];
+    const topArtistsPageCount = Math.ceil(topArtists.length / topArtistsPageSize);
+    const paginatedTopArtists = topArtists.slice((currentArtistPage - 1) * topArtistsPageSize, currentArtistPage * topArtistsPageSize);
 
-    function artistSearch(e: React.ChangeEvent<HTMLInputElement>) {
-        const query = e.target.value.trim().toLowerCase();
-        setArtistSearchQuery(query);
-        setArtistsList(currentTimeline?.top_artists?.filter(artist => (artist.name.toLowerCase().includes(query))));
+    const handleSongsPageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= topSongsPageCount) {
+            setCurrentSongPage(newPage);
+        }
+    };
+
+    const handleArtistPageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= topArtistsPageCount) {
+            setCurrentArtistPage(newPage)
+        }
     }
 
     function changeTimeline(timeline: string) {
@@ -98,23 +102,29 @@ export default function TopBox() {
 
     console.log("CURRENTTIMELINE", currentTimeline)
 
-    const topSongsToShow = songsList && songSearchQuery !== "" ? songsList : currentTimeline?.songs_list
-    const topArtistsToShow = artistsList && artistSearchQuery !== "" ? artistsList : currentTimeline?.top_artists
-
     return (
         <>
-            {topTracksData?.long_term &&
-                <div className={clsx(styles.mostBox)} >
-                    <p className={clsx(styles.boxLabel, "font-kanit flex items-center text-zinc-300")}><Guitar className={clsx(styles.icon, "me-3")} /><span>Your Most Listened Song for an year</span></p>
-                    {topTracksStatus !== "loading" ?
-                        (<div className="mt-[1rem] p-3 bg-emerald-800 rounded-md">
-                            <LazySpotifyFrame name={topTracksData?.long_term[0].name} trackId={topTracksData?.long_term[0].id} height={152} />
-                        </div>) : (
-                            <div className=" h-[10rem] mt-5 w-[50rem] bg-zinc-700 animate-pulse rounded-md max-w-[100%]">
-
-                            </div>
-                        )}
-                </div>}
+            <div className={clsx(styles.mostBox)} >
+                {(topTracksData?.long_term) && <p className={clsx(styles.boxLabel, "font-kanit flex items-center text-zinc-300")}><Guitar className={clsx(styles.icon, "me-3")} /><span>Your Most Listened Song for an year</span></p>}
+                {(topTracksStatus === "success" && topTracksData?.long_term) &&
+                    (<div className="mt-[1rem] p-3 bg-emerald-800 rounded-md">
+                        {(topTracksData?.long_term) && <LazySpotifyFrame name={topTracksData?.long_term[0].name} trackId={topTracksData?.long_term[0].id} height={152} />}
+                    </div>)}
+                {topTracksStatus === "loading" && (
+                    <div className=" h-[10rem] mt-5 w-[50rem] bg-zinc-700 animate-pulse rounded-md max-w-[100%]">
+                    </div>
+                )}
+                {topTracksStatus === "error" &&
+                    (<div className={clsx("bg-red-900/20 border border-red-500 h-[150px] sm:h-[300px] w-full flex flex-col justify-center items-center rounded-lg")}>
+                        <p className="text-red-400 font-dm mb-4">Something went wrong!</p>
+                        <p className="text-red-300 text-sm mb-4">{topTracksError}</p>
+                        <button
+                            onClick={() => topTracksRefetch()}
+                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-dm"
+                        > Retry
+                        </button>
+                    </div>)}
+            </div>
 
             <div className={clsx(styles.topTracksBox, "bg-[transparent]")}>
                 <div className={styles.boxLabelGroup}>
@@ -127,7 +137,7 @@ export default function TopBox() {
                                     {topTracksData?.medium_term && <button onClick={() => changeTimeline("6 Months")} className={clsx("6 Months" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>6 Months</button>}
                                     {topTracksData?.long_term && <button onClick={() => changeTimeline("1 Year")} className={clsx("1 Year" === currentTimeline?.title ? styles.activeTimeline : "", "bg-black font-kanit cursor-pointer border-box")}>1 Year</button>}
                                 </div>
-                               <CreatePlaylist currentTimeline={currentTimeline!} />
+                                <CreatePlaylist currentTimeline={currentTimeline!} />
                             </div >
                         ) : (
                             <div className={clsx("bg-zinc-700 rounded-2xl animate-pulse h-[50px] w-[300px] max-w-[100%] ")}>
@@ -165,21 +175,28 @@ export default function TopBox() {
                             </button>
                         </div>
                     )}
-                    {topTracksStatus === "success" && (
+                    {(topTracksStatus === "success" && topTracksData) && (
                         <div className={clsx(styles.topTracksWrapper, "bg-neutral-950")}>
                             <div className={styles.topTracksHeaderGroup}>
                                 <p className="font-dm font-bold flex items-center text-[1.3rem] flex-1"><Activity size={"1.5rem"} className={clsx(styles.icon, "me-3")} /><span className="text-zinc-300">Your Most Listened Songs</span></p>
-                                <div className={clsx(styles.searchBarGroup, "bg-zinc-800")}>
-                                    <Search className={styles.searchIcon} />
-                                    <input type="text" placeholder="Search any song here" value={songSearchQuery} className={clsx(styles.searchBar)} onChange={(e) => songSearch(e)} />
-                                </div>
                             </div>
-                            <div className={styles.topTracksList}>
-                                {(topSongsToShow ? topSongsToShow.length : 0) > 0 ? topSongsToShow?.map((song) => {
-                                    return <LazySpotifyFrame key={song.id} name={song.name} position={song.position} trackId={song.id} />
-                                }) :
-                                    <p className="font-dm text-zinc-300 w-[max-content] h-[max-content] px-10 py-4 rounded-md bg-zinc-800">No song found !</p>
-                                }
+                            <div className={clsx(styles.listWrapper, styles.customScroll)}>
+                                <div className={clsx(styles.topTracksList, "bg-neutral-950")}>
+                                    {topSongs.length > 0 ? (
+                                        <>
+                                            {paginatedTopSongs.map((song) => (
+                                                <LazySpotifyFrame key={song.id} name={song.name} position={song.position} trackId={song.id} />
+                                            ))}
+
+                                        </>
+                                    ) : (
+                                        <p className="font-dm text-zinc-300 w-[max-content] h-[max-content] px-10 py-4 rounded-md bg-zinc-800">No song found !</p>
+
+                                    )}
+                                </div>
+                                {topSongs.length > topSongsPageSize && <div className="w-full flex justify-center pt-5">
+                                    <Paginator currentPage={currentSongPage} totalPage={topSongsPageCount} pageChangeHandler={handleSongsPageChange} />
+                                </div>}
                             </div>
                         </div>
                     )}
@@ -199,21 +216,25 @@ export default function TopBox() {
                             </button>
                         </div>
                     )}
-                    {topArtistsStatus === "success" && (
+                    {(topArtistsStatus === "success" && topArtistsData) && (
                         <div className={clsx(styles.topArtistsWrapper, "bg-neutral-950")}>
                             <div className={clsx(styles.topArtistsHeaderGroup)}>
                                 <p className="font-dm font-bold flex items-center text-[1.3rem] flex-1"><MicVocal size={"1.5rem"} className={clsx(styles.icon, "me-3")} /><span className="text-zinc-300">Your Most Listened Artists</span></p>
-                                <div className={clsx(styles.searchBarGroup, "bg-zinc-800")}>
-                                    <Search className={styles.searchIcon} />
-                                    <input type="text" placeholder="Search any artist here" value={artistSearchQuery} className={styles.searchBar} onChange={(e) => artistSearch(e)} />
-                                </div>
                             </div>
-                            <div className={styles.topArtistsList}>
-                                {(topArtistsToShow ? topArtistsToShow.length : 0) > 0 ? topArtistsToShow?.map((artist) => (
-                                    <LazyArtistFrame key={artist.id} name={artist.name} position={artist.position} artistId={artist.id} />
-                                )) :
-                                    <p className="font-dm text-zinc-300 w-[max-content] h-[max-content] px-10 py-4 rounded-md bg-zinc-800">No Artist found !</p>
-                                }
+                            <div className={clsx(styles.listWrapper, styles.custromScroll)}>
+                                <div className={styles.topArtistsList}>
+                                    {topArtists.length > 0 ?
+                                        (<>
+                                            {paginatedTopArtists.map((artist) => (
+                                                <LazyArtistFrame key={artist.id} name={artist.name} position={artist.position} artistId={artist.id} />
+                                            ))}
+                                        </>) : (
+                                            <p className="font-dm text-zinc-300 w-[max-content] h-[max-content] px-10 py-4 rounded-md bg-zinc-800">No Artist found !</p>
+                                        )}
+                                </div>
+                                {topArtists.length > topArtistsPageSize && <div className="flex justify-center pt-5">
+                                    <Paginator currentPage={currentArtistPage} totalPage={topArtistsPageCount} pageChangeHandler={handleArtistPageChange} />
+                                </div>}
                             </div>
                         </div>
                     )}

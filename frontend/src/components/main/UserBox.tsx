@@ -56,7 +56,7 @@ export default function UserBox() {
             )}
 
             {status === "error" && (
-                <div className={clsx("bg-red-900/20 border border-red-500 h-[150px] sm:h-[300px] w-full flex flex-col justify-center items-center rounded-lg")}>
+                <div className={clsx("bg-red-900/20 border border-red-500 h-[150px] sm:h-[150px] w-full flex flex-col justify-center items-center rounded-lg max-w-[400px]")}>
                     <p className="text-red-400 font-dm mb-4">Something went wrong!</p>
                     <p className="text-red-300 text-sm mb-4">{error}</p>
                     <button

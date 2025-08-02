@@ -4,13 +4,15 @@ type SpotifyArtistFrameProps = {
     artistId: string;
     name: string;
     position?: number;
+    theme?:number;
+    height?:number;
 };
 
-const LazyArtistFrame: React.FC<SpotifyArtistFrameProps> = ({ artistId, name, position }) => {
+const LazyArtistFrame: React.FC<SpotifyArtistFrameProps> = ({ artistId, name, position, theme=1, height=152 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [loaded, setLoaded] = useState(false);
     const ref = useRef<HTMLDivElement | null>(null);
-    const embedUrl = `https://open.spotify.com/embed/artist/${artistId}?theme=1`;
+    const embedUrl = `https://open.spotify.com/embed/artist/${artistId}?theme=${theme}`;
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -29,8 +31,8 @@ const LazyArtistFrame: React.FC<SpotifyArtistFrameProps> = ({ artistId, name, po
       }, []);
 
     return (
-        <div ref={ref} className="h-[80px] sm:h-[152px] overflow-hidden rounded-lg shadow-md relative">
-            <span className="z-2 absolute left-0 top-0 text-xl font-bold font-onest rounded-full bg-blue-500 aspect-square min-w-7 min-h-7 grid place-items-center px-2">
+        <div ref={ref} className={`h-[80px] sm:h-[${height}px] overflow-hidden rounded-lg shadow-md relative`}>
+            <span className="z-2 absolute left-0 top-0 text-2xl font-bold font-onest rounded-full bg-blue-500 aspect-square min-w-7 min-h-7 grid place-items-center px-3">
                 {position}
             </span>
             {!loaded && (

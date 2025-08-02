@@ -11,8 +11,18 @@ export default function StatBox() {
         <>
             {status === "loading" && (
                 <>
-                    <div className="h-[300px] justify-center mb-5 bg-zinc-700 animate-pulse flex items-center gap-[1rem] rounded-2xl"><Loader className="text-emerald-500 animate-spin " /><span className="font-onest text-[1.5rem]">Loading....</span></div>
-                    <div className="h-[300px] justify-center mb-5 bg-zinc-700 animate-pulse flex items-center gap-[1rem] rounded-2xl"><Loader className="text-emerald-500 animate-spin " /><span className="font-onest text-[1.5rem]">Loading....</span></div>
+                    <div>
+                        <h1 className={clsx("font-dm text-[2rem] w-[max-content] border-b-2 border-blue-500 font-bold mb-1 pb-1")}>Remember the times ?</h1>
+                        <p className="text-zinc-300 font-dm mb-[1.5rem]">Select any date to see all the songs you added in any of the playlist at that time</p>
+
+                        <div className="h-[300px] justify-center mb-5 bg-zinc-700 animate-pulse flex items-center gap-[1rem] rounded-2xl"><Loader className="text-emerald-500 animate-spin " /><span className="font-onest text-[1.5rem]">Loading....</span></div>
+                    </div>
+                    <div>
+                        <p className="font-dm font-bold text-[2rem] mb-[.5rem] border-b-2 border-[#8A2BE2] w-[max-content] pb-1">Your Song Additions</p>
+                        <p className="font-dm text-zinc-300 mb-[1.5rem]">These tracks aren't just additions, they're memories from your past—college, first loves, and everything in between.</p>
+
+                        <div className="h-[300px] justify-center mb-5 bg-zinc-700 animate-pulse flex items-center gap-[1rem] rounded-2xl"><Loader className="text-emerald-500 animate-spin " /><span className="font-onest text-[1.5rem]">Loading....</span></div>
+                    </div>
                 </>
             )}
 
@@ -28,10 +38,10 @@ export default function StatBox() {
                 </div>
             )}
 
-            {status === "success" && (
+            {(status === "success" &&  data) && (
                 <>
-                    <AllTime playlistsData={data} />
                     <AdditionsChart playlists={data} />
+                    <AllTime playlistsData={data} />
                 </>
             )}
         </>

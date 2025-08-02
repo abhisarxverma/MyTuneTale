@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { type SpotifyAnalysis } from "@/lib/types.ts";
@@ -7,7 +7,7 @@ type SpotifyContextType = {
   authenticated: boolean;
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   connectSpotify: () => void;
-  persona: SpotifyAnalysis | null;
+  persona: SpotifyAnalysis;
   setPersona: React.Dispatch<React.SetStateAction<SpotifyAnalysis>>;
 };
 
@@ -50,8 +50,12 @@ export function SpotifyProvider({ children }: { children: ReactNode }) {
 
 export function SpotifyCallback() {
   const navigate = useNavigate();
+  const hasRun = useRef(false);
   
   useEffect(() => {
+
+    if (hasRun.current) return;
+    hasRun.current = true;
 
     const searchParams = new URLSearchParams(window.location.search);
 
@@ -76,11 +80,11 @@ export function SpotifyCallback() {
 
     localStorage.setItem("token_info", JSON.stringify(token_info));
 
-    localStorage.setItem("user_id", JSON.stringify(userId));
+    localStorage.setItem("user_id", userId);
 
     navigate("/home")
 
-  }, []);
+  }, [navigate]);
 
 
   return (

@@ -4,8 +4,6 @@ from fastapi import Request
 from collections import defaultdict
 import time
 import re
-from PIL import Image
-import requests, io, base64
 
 email = config("EMAIL")
 password = config("PASSWORD")
@@ -13,7 +11,6 @@ password = config("PASSWORD")
 CUSTOM_PROFANE_WORDS = config("CUSTOM_PROFANITY").split(",")
 
 BAD_WORDS = [word.strip() for word in CUSTOM_PROFANE_WORDS if word.strip()]
-
 
 rate_limit_cache = defaultdict(lambda: {"count": 0, "timestamp": time.time()})
 
@@ -342,7 +339,7 @@ def give_prompt(data):
     {data}
     """
 
-    return 
+    return prompt
 
 def create_playlist_with_image(
     sp,
@@ -350,7 +347,6 @@ def create_playlist_with_image(
     track_uris: list,
     playlist_name: str = "My Music Persona",
     description: str = "These are my most listened songs, that are essentially the summary of my life till now.",
-    image_path: str = "images/boy.jpg"
 ):
     playlist = sp.user_playlist_create(user=user_id, name=playlist_name, public=True, description=description)
     playlist_id = playlist["id"]
@@ -359,15 +355,51 @@ def create_playlist_with_image(
     sp.playlist_add_items(playlist_id=playlist_id, items=track_uris)
     print(f"🎶 Added {len(track_uris)} tracks")
 
-    # try:
-    #     with open(image_path, "rb") as f:
-    #         image = Image.open(f).convert("RGB")
-    #         buffer = io.BytesIO()
-    #         image.save(buffer, format="JPEG")
-    #         encoded_image = base64.b64encode(buffer.getvalue()).decode("utf-8")
-    #         sp.playlist_upload_cover_image(playlist_id, encoded_image)
-    #         print("image uploaded as playlist cover")
-    # except Exception as e:
-    #     print("Error in putting playlist cover image:", e)
-
     return playlist["external_urls"]["spotify"]
+
+# def fetch_recommendations(sp, emotion: str, country: str):
+   
+#     market = COUNTRY_MAP.get(country.title(), "US")
+#     query = EMOTION_MAP.get(country.title(), {}).get(emotion.lower())
+
+#     if not query:
+#         print(f"No query found for emotion: {emotion}")
+#         return []
+    
+#     result = []
+
+#     limit = 50
+#     offset = 0
+#     total = 100
+
+#     while True:
+
+#         results = sp.search(q=query, type="track", market=market, limit=limit, offset=offset)
+#         tracks = results.get("tracks", {}).get("items", [])
+
+
+#         # print("TRACKS :", tracks)
+
+#         if not tracks: break
+
+#         cleaned = [
+#             {
+#                 "id": track["id"],
+#                 "name": track["name"],
+#                 "artist": track["artists"][0]["name"],
+#                 "album": track["album"]["name"],
+#                 "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
+#                 "uri": track.get("uri")
+#             }
+#             for track in tracks
+#         ]
+
+#         result.extend(cleaned)
+
+#         if len(result) >= total: break
+    
+#         if len(tracks) < limit: break
+    
+#         offset += limit
+
+#     return result

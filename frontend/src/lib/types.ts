@@ -77,7 +77,9 @@ export interface SpotifyAnalysis {
     ai_analysis: AiAnalysis | undefined;
 }
 
-export type SpotifyAnalysisState = SpotifyAnalysis | null;
+export type SpotifyAnalysisState = SpotifyAnalysis;
+
+export type SpotifyKey = keyof SpotifyAnalysis;
 
 export interface AiAnalysis {
     poetic_title: string;

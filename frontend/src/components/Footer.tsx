@@ -26,9 +26,9 @@ export default function Footer() {
             } else {
                 toast.error(`Error: ${data.message}`);
             }
-        } catch (error) {
+        } catch (error : any) {
             console.error("Error sending review:", error);
-            toast.error("Failed to send review. Please try again later.");
+            toast.error(error.response.data.message);
         } finally {
             setSending(false);
         }

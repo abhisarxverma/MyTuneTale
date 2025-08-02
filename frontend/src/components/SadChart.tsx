@@ -28,8 +28,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function SadStory({ data }: { data: Chapter[] }) {
-  const chartData = data.map((chapter) => ({
+export function SadStory({ data }: { data: Chapter[] | undefined }) {
+  const chartData = data?.map((chapter) => ({
     month: new Date(chapter.month + "-01").toLocaleString("default", { month: "short", year: "numeric" }),
     sadness: Number(chapter.sad_score),
   }))

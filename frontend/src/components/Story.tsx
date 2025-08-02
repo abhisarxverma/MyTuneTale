@@ -19,7 +19,7 @@ export default function Story() {
     const navigate = useNavigate();
 
     async function fetchAnalysis() {
-        
+
         const user_id = localStorage.getItem("user_id")
 
         if (!user_id) {
@@ -31,7 +31,7 @@ export default function Story() {
             setLoading(true);
             setError(null);
 
-            const res = await api.post(`/aianalysis`, { user_id: user_id });
+            const res = await api.post(`/ai_analysis`, { user_id: user_id });
             console.log("ANALYSIS RESPONSE:", res);
 
             if (!res.data || !res.data.data) {
@@ -66,7 +66,7 @@ export default function Story() {
     }
 
     useEffect(() => {
-        fetchAnalysis();
+        setTimeout(fetchAnalysis, 1000);
     }, []);
 
     console.log("PERSONA AI ANALYSIS:", persona?.ai_analysis);
@@ -88,42 +88,50 @@ export default function Story() {
                     </p>
                 </div>
             </div>
-        ); 
+        );
     }
 
     if (error) {
         return (
-            <div className={clsx("bg-red-900/20 border border-red-500 h-[300px] w-full flex flex-col justify-center items-center rounded-lg")}>
-                <p className="text-red-400 font-dm mb-4">Failed to load your story</p>
-                <p className="text-red-300 text-sm mb-4">{error}</p>
-                <button
-                    onClick={() => fetchAnalysis()}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-dm"
-                >
-                    Retry
-                </button>
+            <div>
+                <h2 className={clsx(styles.title, "font-onest", styles[`${currentChart}Title`])}>
+                    What your music journey tells about your past?
+                </h2>
+                <p className="text-zinc-300 font-dm">
+                    Below you can see how with each month, you changed, determined by your music journey
+                </p>
+                <div className={clsx("bg-red-900/20 border border-red-500 h-[300px] w-full flex flex-col justify-center items-center rounded-lg mt-7")}>
+                    <p className="text-red-400 font-dm mb-4">Failed to load your story</p>
+                    <p className="text-red-300 text-sm mb-4">{error}</p>
+                    <button
+                        onClick={() => fetchAnalysis()}
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-dm"
+                    >
+                        Retry
+                    </button>
+                </div>
             </div>
         );
     }
 
-    if (!persona) {
+    if (!persona?.ai_analysis || !persona?.ai_analysis.story || !persona?.ai_analysis.story.all_chapters) {
         return (
-            <div className={clsx("bg-yellow-900/20 border border-yellow-500 h-[300px] w-full flex justify-center items-center rounded-lg")}>
-                <p className="text-yellow-400 font-dm">No persona data available</p>
-            </div>
-        );
-    }
-
-    if (!persona.ai_analysis || !persona.ai_analysis.story || !persona.ai_analysis.story.all_chapters) {
-        return (
-            <div className={clsx("bg-yellow-900/20 border border-yellow-500 h-[300px] w-full flex flex-col justify-center items-center rounded-lg")}>
-                <p className="text-yellow-400 font-dm mb-4">Analysis data is incomplete</p>
-                <button
-                    onClick={() => fetchAnalysis()}
-                    className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-dm"
-                >
-                    Retry Analysis
-                </button>
+            <div>
+                <h2 className={clsx(styles.title, "font-onest", styles[`${currentChart}Title`])}>
+                    What your music journey tells about your past?
+                </h2>
+                <p className="text-zinc-300 font-dm">
+                    Below you can see how with each month, you changed, determined by your music journey
+                </p>
+                <div className={clsx("bg-yellow-900/20 border border-yellow-500 h-[300px] w-full flex flex-col justify-center items-center rounded-lg")}>
+                    <p className="text-yellow-400 font-dm mb-4">Analysis data is incomplete</p>
+                    <button
+                        onClick={() => fetchAnalysis()}
+                        className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-dm"
+                    >
+                        Retry Analysis
+                    </button>
+                </div>
             </div>
         );
     }
@@ -187,22 +195,22 @@ export default function Story() {
             <div className={clsx(styles.storyBox, "bg-neutral-950")}>
                 <div className={styles.personaBox}>
                     {currentChart === "persona" && (
-                        <PersonaStory data={persona.ai_analysis.story.all_chapters} />
+                        <PersonaStory data={persona?.ai_analysis.story.all_chapters} />
                     )}
                 </div>
                 <div className={styles.sadnessBox}>
                     {currentChart === "sadness" && (
-                        <SadStory data={persona.ai_analysis.story.all_chapters} />
+                        <SadStory data={persona?.ai_analysis.story.all_chapters} />
                     )}
                 </div>
                 <div className={styles.happinessBox}>
                     {currentChart === "happiness" && (
-                        <HappinessStory data={persona.ai_analysis.story.all_chapters} />
+                        <HappinessStory data={persona?.ai_analysis.story.all_chapters} />
                     )}
                 </div>
                 <div className={styles.deepLyricsBox}>
                     {currentChart === "deep_lyrics" && (
-                        <DeepLyricsStory data={persona.ai_analysis.story.all_chapters} />
+                        <DeepLyricsStory data={persona?.ai_analysis.story.all_chapters} />
                     )}
                 </div>
             </div>

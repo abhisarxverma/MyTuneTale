@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import toast from "react-hot-toast";
 
 type LazySpotifyFrameProps = {
   trackId: string | undefined;
@@ -21,24 +22,16 @@ const LazySpotifyFrame: React.FC<LazySpotifyFrameProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
-  const [error, setError] = useState(false);
-  const [retryKey, setRetryKey] = useState(0);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const embedUrl = `https://open.spotify.com/embed/track/${trackId}?theme=${theme}`;
 
   useEffect(() => {
-    let retryTimer: NodeJS.Timeout | null = null;
-
-    if (error) {
-      retryTimer = setTimeout(() => {
-        setError(false);
-        setRetryKey(prev => prev + 1);
-      }, 10000); 
+    
+    if (iframeRef.current) {
+      iframeRef.current.addEventListener("error", () => toast.error("Failed to load iframe due to weak connection"))
     }
 
-    return () => {
-      if (retryTimer) clearTimeout(retryTimer);
-    };
-  }, [error]);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,7 +55,7 @@ const LazySpotifyFrame: React.FC<LazySpotifyFrameProps> = ({
       className={`max-w-full h-[80px] sm:h-[${height}px] overflow-hidden rounded-lg shadow-md relative border-box`}
     >
       {position && (
-        <span className="z-2 absolute left-0 top-0 text-xl font-bold font-onest rounded-full bg-blue-500 aspect-square min-w-7 min-h-7 grid place-items-center px-2">
+        <span className="z-2 absolute left-0 top-0 text-2xl font-bold font-onest rounded-full bg-blue-500 aspect-square min-w-7 min-h-7 grid place-items-center px-3">
           {position}
         </span>
       )}
@@ -71,6 +64,7 @@ const LazySpotifyFrame: React.FC<LazySpotifyFrameProps> = ({
       )}
       {isVisible && (
         <iframe
+          ref={iframeRef}
           src={embedUrl}
           width="100%"
           height="100%"
@@ -79,7 +73,7 @@ const LazySpotifyFrame: React.FC<LazySpotifyFrameProps> = ({
           style={{ border: "none", visibility: loaded ? "visible" : "hidden" }}
           title={name + " Spotify Player"}
           onLoad={() => setLoaded(true)}
-          onError={() => setError(true)}
+          onError={() => toast.error("Error occured while loading your songs")}
         />
       )}
     </div>

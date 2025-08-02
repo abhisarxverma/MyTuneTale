@@ -1,8 +1,7 @@
 from google import genai
-from pydantic import BaseModel
 import json
-from .new_model import VibeSummary
-from .utils import give_prompt
+from new_model import VibeSummary
+from ..utils import give_prompt
 
 def createStory(data):
     try:
@@ -23,7 +22,8 @@ def createStory(data):
 
         parsed_json = json.loads(response.text)
 
-        return {"success" : "true", "message" : "Story created successfully", "data" : parsed_json}
+        return parsed_json
 
     except Exception as e:
-        return {"success" : "false", "message" : f"Error occured in creating Story : {e}", "data" : {}}
+        print("Error in Gemini function :", e)
+        return None

@@ -14,7 +14,7 @@
 
 
 .title {
-    font-size: 1.3rem;
+    font-size: 2rem;
     width: max-content;
     border-block-end: 2px solid rgb(89, 89, 243);
     font-weight: 600;
@@ -25,19 +25,13 @@
     color: blue;
 }
 
-@media  (min-width: 45rem) {
-
-    .title {
-        font-size: 1.5rem;
-    }
-}
-
 .calendar {
     flex: 0 0 auto;
     border-radius: 10px;
     /* color: var(--spotify-color); */
     height: max-content;
     width: max-content;
+    padding-block: 1.5rem;
 }
 
 .result {
@@ -49,7 +43,7 @@
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     transition: all 1s ease-in;
     background: transparent;
 }
@@ -75,19 +69,20 @@
     border-radius: 10px;
 }
 
-.playlistList {
+.resultPlaylist {
     height: auto;
-    max-height: 500px;
+    max-height: 80vh;
+    min-height: 400px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #555 #111;
 }
 
-.playlistList p:not(:first-child) {
-    padding-top: 3rem;
+.dayResult {
+    max-height: 300px;
 }
 
 .playlistImage {
@@ -102,10 +97,20 @@
 }
 
 .songsList{
-    padding: .5rem;
+    flex: 1;
+    padding: 1rem;
+    padding-block-start: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
+    gap: 1.7rem;
+    overflow-y: auto;
+    align-content: flex-start;
+}
+
+@media (min-width: 35rem) {
+    .songsList {
+        gap: 1rem;
+    }
 }
 
 .songList > * {

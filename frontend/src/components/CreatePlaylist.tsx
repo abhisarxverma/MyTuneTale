@@ -8,9 +8,9 @@ import clsx from "clsx";
 import { FaSpotify } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
 } from "@/components/ui/popover"
 
 interface currentTimeline {
@@ -31,10 +31,10 @@ export default function CreatePlaylist({ currentTimeline }: { currentTimeline: c
     async function createPlaylist() {
 
         const name = playlistName.trim();
-        if (name==="") return;
+        if (name === "") return;
 
         const description = playlistDescription.trim();
-        if (description==="") return;
+        if (description === "") return;
 
         setCreatingPlaylist(true);
 
@@ -68,7 +68,7 @@ export default function CreatePlaylist({ currentTimeline }: { currentTimeline: c
                 toast.error(data?.message)
             }
 
-        } catch (error: any) {
+        } catch (error : any) {
             console.log("Error in creating playlist :", error);
             if (error.response.data.cause === "token") navigate("/")
             toast.error("Please connect to spotify to create playlist")
@@ -80,31 +80,34 @@ export default function CreatePlaylist({ currentTimeline }: { currentTimeline: c
     return (
         <>
             <Popover >
-                <PopoverTrigger className={styles.popoverTrigger}>
-                    <button 
-                            className={clsx(styles.createPlaylistButton, "bg-neutral-950 font-kanit")} 
-                            title="turn the whole top songs list into a playlist">{!creatingPlaylist ? <FaSpotify size={"1.7rem"} className={styles.createPlaylistIcon} /> : <Loader2 size={"1.7rem"} className={clsx(styles.createPlaylistIcon, "animate-spin")} />}
-                            <span>Create Playlist</span>
-                            </button>
+                <PopoverTrigger className={clsx(styles.createPlaylistButton, "bg-neutral-950 font-kanit")}
+                    title="turn the whole top songs list into a playlist">
+                    {!creatingPlaylist ? <FaSpotify size={"1.7rem"} className={styles.createPlaylistIcon} /> : <Loader2 size={"1.7rem"} className={clsx(styles.createPlaylistIcon, "animate-spin")} />}
+                    <span>Create Playlist</span>
                 </PopoverTrigger>
                 <PopoverContent className={styles.popoverContent}>
+                    <h2 className="font-onest font-bold text-[1.2rem] text-white mb-3">{currentTimeline?.title}'s top songs</h2>
                     <div className={styles.formWrapper}>
-                        <input 
-                            type="text" 
+                        <label className="" htmlFor="name">Playlist name (optional)</label>
+                        <input
+                            name="name"
+                            type="text"
                             placeholder="Playlist Name"
                             value={playlistName}
                             onChange={(e) => setPlaylistName(e.target.value)}
-                            className={clsx(styles.input, styles.nameInput)} />
-                        <textarea 
+                            className={clsx(styles.input, styles.nameInput, "mb-3")} />
+                        <label htmlFor="description">Playlist description (optional)</label>
+                        <textarea
+                            name="description"
                             placeholder="Playlist Description"
                             value={playlistDescription}
                             onChange={(e) => setPlaylistDescription(e.target.value)}
-                            className={clsx(styles.textarea, styles.descriptionInput)} ></textarea>
+                            className={clsx(styles.textarea, styles.descriptionInput, "mb-3")} ></textarea>
                         <button onClick={() => createPlaylist()} className={styles.createButton}>{creatingPlaylist ? <Loader2 className={clsx(styles.buttonIcon, "animate-spin")} /> : <span className={clsx("flex items-center gap-2")}><FaSpotify className={styles.buttonIcon} /><span>Create</span></span>}</button>
                     </div>
                 </PopoverContent>
             </Popover>
-            
+
         </>
     )
 
