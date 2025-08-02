@@ -5,6 +5,11 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: 'static/', 
+  build: {
+    outDir: '../fast_api_backend/static', // 👈 Output directly to FastAPI's static folder
+    emptyOutDir: true,
+  },
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
