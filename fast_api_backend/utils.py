@@ -82,8 +82,7 @@ def send_email(message):
             return False
 
         else:
-            return True
-        
+            return True   
 
 def fetch_all_saved_tracks(sp):
     saved_tracks = []
@@ -281,7 +280,6 @@ def fetch_user_details(sp):
 
     return user_info if user_info else None
 
-
 def sort_genres(tracks: list):
 
     genre_count = {}
@@ -357,49 +355,3 @@ def create_playlist_with_image(
 
     return playlist["external_urls"]["spotify"]
 
-# def fetch_recommendations(sp, emotion: str, country: str):
-   
-#     market = COUNTRY_MAP.get(country.title(), "US")
-#     query = EMOTION_MAP.get(country.title(), {}).get(emotion.lower())
-
-#     if not query:
-#         print(f"No query found for emotion: {emotion}")
-#         return []
-    
-#     result = []
-
-#     limit = 50
-#     offset = 0
-#     total = 100
-
-#     while True:
-
-#         results = sp.search(q=query, type="track", market=market, limit=limit, offset=offset)
-#         tracks = results.get("tracks", {}).get("items", [])
-
-
-#         # print("TRACKS :", tracks)
-
-#         if not tracks: break
-
-#         cleaned = [
-#             {
-#                 "id": track["id"],
-#                 "name": track["name"],
-#                 "artist": track["artists"][0]["name"],
-#                 "album": track["album"]["name"],
-#                 "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
-#                 "uri": track.get("uri")
-#             }
-#             for track in tracks
-#         ]
-
-#         result.extend(cleaned)
-
-#         if len(result) >= total: break
-    
-#         if len(tracks) < limit: break
-    
-#         offset += limit
-
-#     return result

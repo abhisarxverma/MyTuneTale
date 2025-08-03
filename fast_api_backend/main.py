@@ -42,16 +42,17 @@ debugPrint("CALLBACK REDIRECT :"+callback_redirect)
 
 app = FastAPI()
 
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", https_only=False)
+app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="lax", https_only=True)
 app.add_middleware(RateLimitMiddleware)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[FRONTEND_URL] if ENV != "DEV" else ["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+if ENV == "DEV" : 
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[FRONTEND_URL] if ENV != "DEV" else ["http://localhost:5173"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 class ReviewPayload(BaseModel):
     message: str

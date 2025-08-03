@@ -1,5 +1,5 @@
-from fastapi import FastAPI
 from main import app
-from uvicorn.middleware.wsgi import WSGIMiddleware
+from asgiref.wsgi import WsgiToAsgi
 
-application = WSGIMiddleware(app)
+# Convert FastAPI (ASGI) app to WSGI
+application = WsgiToAsgi(app)
