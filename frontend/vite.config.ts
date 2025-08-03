@@ -7,7 +7,7 @@ import { defineConfig } from "vite"
 export default defineConfig({
   base: 'static/', 
   build: {
-    outDir: '../fast_api_backend/static', // 👈 Output directly to FastAPI's static folder
+    outDir: '../fast_api_backend/static',
     emptyOutDir: true,
   },
   plugins: [react(), tailwindcss()],
