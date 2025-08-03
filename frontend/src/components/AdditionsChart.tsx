@@ -33,8 +33,8 @@ function formatMonth(dateStr: string) {
 function generateMonthlyChartData(playlists: PlaylistCollection) {
     const monthlyCounts: Record<string, { count: number; date: Date }> = {}
 
-    playlists.forEach((playlist) => {
-        playlist.tracks.forEach((track: SavedTrack) => {
+    playlists?.forEach((playlist) => {
+        playlist?.tracks?.forEach((track: SavedTrack) => {
             const date = new Date(track.added_at)
             const key = formatMonth(track.added_at)
 

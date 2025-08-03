@@ -73,7 +73,7 @@ export default function AllTime({ playlistsData }: { playlistsData: PlaylistColl
                 <div className={clsx(styles.result)}>
                     <p className={clsx(styles.boxLabel, "font-kanit text-zinc-300")}><CalendarFold className={styles.calendarIcon} /><span>Songs added on {day} {month} {year}</span></p>
                     {dayResults.length > 0 ?
-                        <div className={clsx(styles.resultPlaylist, styles.dayResult, "bg-zinc-800 p-4 ")}>
+                        <div className={clsx(styles.resultPlaylist, "bg-zinc-800 p-4 ")}>
                             <div className="py-4 pt-5 ps-5 pb-7 font-dm font-bold bg-neutral-950 text-[2.5rem] flex items-end gap-[1rem]">
                                 <Avatar className={styles.playlistImage}>
                                     <AvatarImage src={paginatedDayResult.image} />

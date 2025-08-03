@@ -62,7 +62,7 @@ export default function Footer() {
             <div className={styles.right}>
                 <p className={clsx(styles.reviewTitle, "font-dm text-zinc-300")}>Share your valuable feedback</p>
                 <textarea required aria-required="true" className={styles.reviewInput} onChange={(e) => setReview(e.target.value)} value={review} placeholder="Send your reviews, advices, suggestions, critiques straight to me" ></textarea>
-                <button disabled={sending} onClick={sendReview} className={clsx(styles.sendButton, "bg-white text-black disabled:cursor-not-allowed")}>{sending ? <Loader className={clsx(styles.loader, "animate-spin")} size={"1.5rem"} /> : <Send size={"1.5rem"} />}{sending ? "Sending..." : "Send Review"}</button>
+                <button disabled={sending} onClick={sendReview} className={clsx(styles.sendButton, "bg-white text-black disabled:cursor-not-allowed")}>{sending ? <Loader className={clsx(styles.loader, "animate-spin")} size={"1.5rem"} /> : <Send size={"1.5rem"} />}{sending ? "Sending..." : "Send"}</button>
             </div>
         </div>
     )

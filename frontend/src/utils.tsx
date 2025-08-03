@@ -34,6 +34,7 @@ export function getSongsAddedOnDay(data: PlaylistCollection, date: Date) {
     for (const playlist of data) {
         const items = []
         const allTracks = playlist.tracks
+        if (!allTracks) continue;
         for (const track of allTracks) {
             const dateAdded = new Date(track.added_at)
             if (areSameDate(dateAdded, date)) items.push(track)
@@ -63,6 +64,7 @@ export function getSongsAddedInMonth(data: PlaylistCollection, date: Date) {
     for (const playlist of data) {
         const items = []
         const allTracks = playlist.tracks
+        if (!allTracks) continue;
         for (const track of allTracks) {
             const dateAdded = new Date(track.added_at)
             if (areSameMonth(dateAdded, date)) items.push(track)

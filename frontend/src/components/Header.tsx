@@ -14,9 +14,9 @@ export default function Header() {
                 </span>
 
             </div>
-            <div className={styles.info}>
+            <a href="https://github.com/abhisarxverma/MyTuneTale/" className={styles.info}>
                 <FaGithub size={"2rem"} />
-            </div>
+            </a>
         </header>
     )
 }

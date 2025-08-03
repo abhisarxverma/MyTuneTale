@@ -5,9 +5,9 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: 'static/', 
+  base: '', 
   build: {
-    outDir: '../fast_api_backend/static',
+    outDir: '../django_backend/core/static',
     emptyOutDir: true,
   },
   plugins: [react(), tailwindcss()],
