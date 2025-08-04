@@ -58,26 +58,40 @@ def refresh_token_if_expired(token_info: dict):
         print("Token refreshed successfully")
     return token_info
 
-@csrf_exempt
-def connect_spotify(request):
-    print("TOKEN INFO ", request.GET)
-    token_info = request.GET.get("token_info")
-    if token_info:
-        try:
-            decoded_info = json.loads(unquote(token_info))
-            token_info = refresh_token_if_expired(decoded_info)
-            sp = Spotify(auth=token_info.get("access_token"))
-            user = sp.current_user()
-            user_id = user["id"]
-            encoded_data = quote(json.dumps(token_info))
-            encoded_user_id = quote(user_id)
-            redirect_url = f"{callback_redirect}?token_info={encoded_data}&user_id={encoded_user_id}"
-            return HttpResponseRedirect(redirect_url)
-        except Exception as e:
-            pass
+MY_ID = "31x5den2q6myr6azxpquyotn6bfa"
+TEMP_TOKEN_INFO = {
+    "access_token": "BQB1rKRT2MyZ-Nrc0pk3rIsUcK6pKJO6H81avLHWBihgBegOdC08rqYtAeCKqwE9wCmxP1uqnC3ZxB8E1TNfrtrnAXIFHpb3wcDaVdSG-_tFfg1eBrAsWLO7f5LJxgqWyt7laXBgppZyaQdG8oyMNtiYHx4qtX6NSMmIlfyvsS6mQ7X-Svpyo85Rk4GQW3J4TEEMn7syURNdBmLt-_kUtXN7fkD1eUVYb-IxqXj1yRgQdSlY3kirJuAaaC-6i53qQ-eytJ2tELcCrSeWjrptaVOaQTIFUDbrPQgECuxkqTzZXinUlhZAsXOsBTwxSXzHw3gYCho3k69os0yKatadzKBkzQ8", 
+    "token_type": "Bearer", 
+    "expires_in": 3600, 
+    "refresh_token": "AQAvruTQrsE_Pyboxn16f_Z5bY6mKFhqQLsbsl7wMA7k-QZ0tph5DeBMU0duvn3b4rpuQot2ABtoBFRKYBQeZQUZalHAth7fb0lIxv2GijP_8_ynjoNQp2JV9wOm8mt6efY", 
+    "scope": "user-library-read user-top-read playlist-read-private playlist-read-collaborative user-read-recently-played user-read-email user-read-private playlist-modify-public playlist-modify-private ugc-image-upload", 
+    "expires_at": 1754264594}
 
-    auth_url = get_spotify_oauth().get_authorize_url()
-    return HttpResponseRedirect(auth_url)
+
+# modifying the spotify connection to only give my spotify data till the spotify allows me for infinite users, after that anyone can connect their spotify account and see their data
+def connect_spotify(request):
+    # print("TOKEN INFO ", request.GET)
+    # token_info = request.GET.get("token_info")
+    # if token_info:
+    #     try:
+    #         decoded_info = json.loads(unquote(token_info))
+    #         token_info = refresh_token_if_expired(decoded_info)
+    #         sp = Spotify(auth=token_info.get("access_token"))
+    #         user = sp.current_user()
+    #         user_id = user["id"]
+    #         encoded_data = quote(json.dumps(token_info))
+    #         encoded_user_id = quote(user_id)
+    #         redirect_url = f"{callback_redirect}?token_info={encoded_data}&user_id={encoded_user_id}"
+    #         return HttpResponseRedirect(redirect_url)
+    #     except Exception as e:
+    #         pass
+
+    # auth_url = get_spotify_oauth().get_authorize_url()
+    # return HttpResponseRedirect(auth_url)
+
+    redirect_url = f"{callback_redirect}?token_info={quote(json.dumps(TEMP_TOKEN_INFO))}&user_id={quote(MY_ID)}"
+    return HttpResponseRedirect(redirect_url)
+
 
 def callback(request):
     code = request.GET.get("code")
@@ -483,21 +497,22 @@ def create_playlist(request):
             "data" : None
         })
     
+
+# Modifying the query from the database to return the data everytime till spotify allows for infinite users, after that it will only return data from database for only 5 days of inserting after that this will give None so that we can get new data from spotify
 def give_from_users_table(user_id, column_name):
     try:
-        raw_updated_at = supabase.table("users").select("updated_at").eq("id", user_id).single().execute()  
+        # raw_updated_at = supabase.table("users").select("updated_at").eq("id", "31x5den2q6myr6azxpquyotn6bfa").single().execute()  
 
-        if raw_updated_at.data and raw_updated_at.data.get("updated_at"):
-            updated_at = raw_updated_at.data["updated_at"]
-            print(f"User {user_id} data last updated at:", updated_at)
+        # if raw_updated_at.data and raw_updated_at.data.get("updated_at"):
+        #     updated_at = raw_updated_at.data["updated_at"]
+        #     print(f"User {user_id} data last updated at:", updated_at)
 
-            if updated_at and datetime.now() - datetime.fromisoformat(updated_at).replace(tzinfo=None) < timedelta(days=5): 
-                result = supabase.table("users").select(column_name).eq("id", user_id).single().execute()
-                # print(f"Result from the supabase for {column_name} :", result)
+        #     if updated_at and datetime.now() - datetime.fromisoformat(updated_at).replace(tzinfo=None) < timedelta(days=5): 
+        result = supabase.table("users").select(column_name).eq("id", "31x5den2q6myr6azxpquyotn6bfa").single().execute()
 
-                if result.data and result.data.get(column_name):
-                    print("Returning existing spotify data from the supabase")
-                    return result.data[column_name]
+        if result.data and result.data.get(column_name):
+            print("Returning existing spotify data from the supabase")
+            return result.data[column_name]
 
         return None
 
