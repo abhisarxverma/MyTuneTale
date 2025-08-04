@@ -2,13 +2,17 @@
 
 # MyTuneTale 🎵  
 
-[🔗 Visit MyTuneTale Website](https://mytunetale.pythonanywhere.com)  
+### [🔗 Visit MyTuneTale Website](https://mytunetale.pythonanywhere.com)  
+
+
+## Screenshots
 
 ![Screenshot 2](screenshots/2.png)  
 ![Screenshot 2](screenshots/1.png)  
 ![Screenshot 2](screenshots/3.png)  
 ![Screenshot 2](screenshots/4.png)  
 ![Screenshot 2](screenshots/6.png)  
+![Screenshot 2](screenshots/8.png)  
 ![Screenshot 2](screenshots/7.png)  
 
 ---
